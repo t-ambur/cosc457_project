@@ -1,4 +1,7 @@
 
+//@author Trevor Amburgey
+// main method for app
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,11 @@ public class HelloDatabase {
     	Database db = new Database();
     	// create a List that represents rows, it contains an array containing every column
     	List<String[]> rows = new ArrayList<String[]>();
+    	
+    	// example of an insert statement
+    	String insertValues = "987654321, 'Created', 'Java', 'W', '2020-4-16', '987 West St', '4334330001', 'M'";
+    	db.queryInsert(Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertValues));
+    	
     	// example of a select statement using the database object
     	rows = db.querySelect("SELECT * FROM PERSON");
     	ConsoleHandler.printRows(rows);

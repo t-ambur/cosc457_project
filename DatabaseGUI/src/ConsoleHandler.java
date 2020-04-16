@@ -1,4 +1,7 @@
 
+//@author Trevor Amburgey
+// class full of static methods for console interaction
+
 import java.util.List;
 
 public class ConsoleHandler {

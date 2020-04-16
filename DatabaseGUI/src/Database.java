@@ -82,7 +82,7 @@ public class Database {
 			{
 				meta = result.getMetaData();
 				String[] columns = new String[meta.getColumnCount()];
-				for (int i = 1; i < columns.length; i++)
+				for (int i = 1; i < columns.length+1; i++)
 					columns[i-1] = result.getString(i);
 				rows.add(columns);
 			}
@@ -92,6 +92,20 @@ public class Database {
 			System.err.println("SQL error, code: " + e);
 		}
 		return rows;
+	}
+	
+	public boolean queryInsert(String query)
+	{
+		boolean success = false;
+		try
+		{
+			success = stmt.execute(query);
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQL error, code: " + e);
+		}
+		return success;
 	}
 	
 	public String getURL()
