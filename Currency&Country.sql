@@ -1,0 +1,46 @@
+set FOREIGN_KEY_CHECKS = 0;
+
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (1,'Dirham', 'AED', 0.272257, 'AE');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (2,'Afghani', 'AFA', 0.278888, 'AF');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (3,'Dollar', 'USD',  1.000000, 'AR');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (4,'Dollar', 'AUD', 0.556223, 'AU');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (5,'Taka', 'BDT', 0.011773, 'BD');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (6,'Euro', 'EUR', 1.081400, 'BE');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (7,'Boliviano', 'BOB', 0.144872, 'BO');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (8,'Real', 'BRL', 0.186849, 'BR');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (9,'Dollar', 'CAD', 0.703037, 'CA');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (10,'Franc', 'CHF', 1.023646, 'SW');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (11,'Yuan', 'RMB', 0.121017, 'CN');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (12,'Euro', 'EUR', 1.081400, 'GE');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (13,'Rupee', 'INR', 0.013127, 'IN');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (14,'Yen', 'JPY', 0.009226, 'JP');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (15,'Peso', 'MXN', 0.398746, 'MX');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (16,'Rupee', 'NPR', 0.008271, 'NP');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (17,'Peso', 'PHP', 0.0119729, 'PH');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (18,'Pound', 'GBP', 1.223300, 'GB');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (19,'Ruble', 'RUB', 0.013072, 'RU');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (20,'Dollar', 'USD', 1.00000, 'US');
+insert into currency(currency_id,name,abbr,conversion_rate_to_US, country_code) values (21,'Peso', 'CLP', 0.001155, 'CL');
+
+
+insert into country(country_id, name_of_country,state_type, abbr) values(1, 'Afghanistan', null, 'AF');
+insert into country(country_id, name_of_country,state_type, abbr) values(2, 'United Arabs', null, 'AE');
+insert into country(country_id, name_of_country,state_type, abbr) values(3, 'Argentina', null, 'AR');
+insert into country(country_id, name_of_country,state_type, abbr) values(4, 'Australia', null, 'AU');
+insert into country(country_id, name_of_country,state_type, abbr) values(5, 'Belgium', null, 'BE');
+insert into country(country_id, name_of_country,state_type, abbr) values(6, 'Bangladesh', null, 'BD');
+insert into country(country_id, name_of_country,state_type, abbr) values(7, 'Bolivia', null, 'BO');
+insert into country(country_id, name_of_country,state_type, abbr) values(8, 'Brazil', null, 'BR');
+insert into country(country_id, name_of_country,state_type, abbr) values(9, 'Switzerland', null, 'SW');
+insert into country(country_id, name_of_country,state_type, abbr) values(10, 'Chile', null, 'CL');
+insert into country(country_id, name_of_country,state_type, abbr) values(11, 'China', null, 'CN');
+insert into country(country_id, name_of_country,state_type, abbr) values(12, 'Canada', null, 'CA');
+insert into country(country_id, name_of_country,state_type, abbr) values(13, 'Germany', null, 'GE');
+insert into country(country_id, name_of_country,state_type, abbr) values(14, 'India', null, 'IN');
+insert into country(country_id, name_of_country,state_type, abbr) values(15, 'Japan', null, 'JP');
+insert into country(country_id, name_of_country,state_type, abbr) values(16, 'Nepal', null, 'NP');
+insert into country(country_id, name_of_country,state_type, abbr) values(17, 'Mexico', null, 'MX');
+insert into country(country_id, name_of_country,state_type, abbr) values(18, 'Phillipines', null, 'PH');
+insert into country(country_id, name_of_country,state_type, abbr) values(19, 'Russia', null, 'RU');
+insert into country(country_id, name_of_country,state_type, abbr) values(20, 'Great Britain', null, 'GB');
+insert into country(country_id, name_of_country,state_type, abbr) values(21, 'United States', 'state', 'US');
