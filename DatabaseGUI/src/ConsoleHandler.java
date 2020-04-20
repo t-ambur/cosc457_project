@@ -17,4 +17,25 @@ public class ConsoleHandler {
 			System.out.println();
 		}
 	}
+	
+	public static String[] getRowStrings(List<String[]> rows)
+	{
+		String[] array = new String[rows.size()];
+		for (int i = 0; i < rows.size(); i++)
+		{
+			array[i] = getString(rows.get(i));
+		}
+		return array;
+	}
+	
+	private static String getString(String[] array)
+	{
+		String temp = "";
+		for (int i = 0; i < array.length; i++)
+		{
+			temp += array[i] + " | ";
+		}
+		temp += "\n";
+		return temp;
+	}
 }

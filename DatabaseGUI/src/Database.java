@@ -19,8 +19,6 @@ public class Database {
 	
 	// class variables
 	private String databaseURL;
-	private String username;
-	private String password;
 	
 	// class constants
 	public static String LOCAL_URL = "jdbc:mysql://localhost:3306/project?";
@@ -47,8 +45,6 @@ public class Database {
 	private void init(String url, String user, String pass)
 	{
 		this.databaseURL = url;
-		this.username = user;
-		this.password = pass;
 		// try to load the MySQL driver: MySQL Connector/J
 		try
 		{
@@ -90,6 +86,10 @@ public class Database {
 		catch (SQLException e)
 		{
 			System.err.println("SQL error, code: " + e);
+			rows.clear();
+			String[] error = new String[1];
+			error[0] = "SQL error, code: " + e;
+			rows.add(error);
 		}
 		return rows;
 	}

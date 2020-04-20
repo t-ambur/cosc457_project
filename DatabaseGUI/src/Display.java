@@ -1,21 +1,17 @@
 
 
 import java.awt.BorderLayout;
-/*
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-*/
-import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
 public class Display {
 	
+	// An object that represents the database
+	Database db;
 	// the window for the program
 	private JFrame frame;
 	// init variables for program
@@ -24,6 +20,7 @@ public class Display {
 	// Panels that make up the interior of the window
 	private JPanel buttonPanel;
 	private JPanel inputPanel;
+	private JPanel outputPanel;
 	// buttons that go in the button panel
 	private JButton lookupButton;
 	private JButton employeeButton;
@@ -31,13 +28,15 @@ public class Display {
 	// fields that go in the input panel
 	private JLabel labelTop;
 	private JLabel label2;
+	private JTextArea outputArea;
 	
 	//protected static Dimension mapSize;
 	
-	public Display(String title, int width, int height){
+	public Display(String title, int width, int height, Database d){
 		this.title = title;
 		this.width = width;
 		this.height = height;
+		this.db = d;
 		init();
 	}
 	
@@ -59,6 +58,13 @@ public class Display {
 		// panel on the right side to enter fields
 		inputPanel = new JPanel();
 		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.PAGE_AXIS));
+		inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
+		// panel on the bottom to see output
+		outputPanel = new JPanel();
+		outputPanel.setLayout(new FlowLayout());
+		outputArea = new JTextArea();
+		outputPanel.add(outputArea);
 		
 		// init buttons, actionlisteners, and input panel
 		addButtons();
@@ -66,8 +72,8 @@ public class Display {
 		
 		// add panels to the window
 		frame.add(buttonPanel, "West");
-		frame.add(new JPanel(), "Center");
-		frame.add(inputPanel, "East");
+		frame.add(inputPanel, "Center");
+		frame.add(outputPanel, "South");
 		pack();
 	}
 	
@@ -77,7 +83,7 @@ public class Display {
 		lookupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				lookupButton.setText("clicked");
+				lookup();
 			}
 		});
 		buttonPanel.add(lookupButton);
@@ -103,13 +109,39 @@ public class Display {
 	
 	public void welcome()
 	{
-		JLabel labelTop = new JLabel();
+		labelTop = new JLabel();
 		labelTop.setText("Welcome to the FedUps Employee shipping application.");
 		inputPanel.add(labelTop);
 		
-		JLabel label2 = new JLabel();
+		label2 = new JLabel();
 		label2.setText("Choose an option on the left to begin.");
 		inputPanel.add(label2);
+	}
+	
+	public void lookup()
+	{
+		labelTop.setText("Enter your select query:");
+		label2.setText("");
+		
+		JTextArea area1 = new JTextArea();
+		inputPanel.add(area1);
+		
+		
+		JButton submit = new JButton("Submit");
+		submit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				outputArea.setText("");
+				String input = area1.getText();
+				List<String[]> rows = new ArrayList<String[]>();
+				rows = db.querySelect(input);
+				String[] r = ConsoleHandler.getRowStrings(rows);
+				for (int i = 0; i < r.length; i++)
+					outputArea.append(r[i]);
+				pack();
+			}
+		});
+		inputPanel.add(submit);
 	}
 	
 	public void pack()
