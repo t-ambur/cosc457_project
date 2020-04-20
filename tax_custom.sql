@@ -1,0 +1,14 @@
+insert into tax_custom(restrictions,internation,percentage,country_code) values( false, false, 1., 'AE');
+insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.02, 'AR');
+insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.02, 'AU');
+insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.02, 'BE');
+insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.12, 'BR');
+insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.20, 'CN');
+insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.16, 'CA');
+insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.13, 'GE');
+insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.11, 'JP');
+insert into tax_custom(restrictions,internation,percentage,country_code) values( false, true, 1.15, 'NP');
+insert into tax_custom(restrictions,internation,percentage,country_code) values( false, true, 1.08, 'MX');
+insert into tax_custom(restrictions,internation,percentage,country_code) values( false, true, 1.07, 'PH');
+insert into tax_custom(restrictions,internation,percentage,country_code) values( false, true, 1.04, 'GB');
+insert into tax_custom(restrictions,internation,percentage,country_code) values( false, true,1.06, 'US');

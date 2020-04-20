@@ -20,7 +20,7 @@ unique(phone)
 drop table if exists employee;
 create table if not exists employee
 (
-employee_id integer not null,
+employee_id integer not null auto_increment,
 ssn varchar(9) not null,
 salary integer(9) not null,
 manager_id integer(9),
@@ -48,8 +48,8 @@ foreign key (ssn) references person (ssn)
 drop table if exists department;
 create table if not exists department
 (
-d_num integer not null,
-department_name varchar(10) not null,
+d_num integer not null auto_increment,
+department_name varchar(20) not null,
 HQ_location_num integer,
 manager_id integer not null,
 primary key (d_num),
@@ -94,9 +94,10 @@ foreign key (b_number) references building (b_number)
 drop table if exists zone;
 create table if not exists zone
 (
-zone_id integer not null,
+zone_id integer not null auto_increment,
 country_id integer not null,
-postal_code integer(9) not null,
+postal_code_low integer(9),
+postal_code_high integer(9),
 primary key (zone_id),
 foreign key (country_id) references country (country_id)
 );
@@ -104,35 +105,35 @@ foreign key (country_id) references country (country_id)
 drop table if exists country;
 create table if not exists country
 (
-country_id integer not null,
-name_of_country varchar(12) not null,
+country_id integer not null auto_increment,
+name_of_country varchar(20) not null,
 state_type varchar(10),
-abbr varchar(3) not null,
+abbr varchar(3) unique not null,
 primary key (country_id)
 );
 
 drop table if exists currency;
 create table if not exists currency
 (
-currency_id integer not null,
+currency_id integer  not null auto_increment,
 name varchar(20) not null,
 abbr varchar(3) not null,
-conversion_rate_to_US decimal(10) not null,
-country_code integer not null,
+conversion_rate_to_US decimal(10,6) not null,
+country_code varchar(2) not null,
 primary key (currency_id),
-foreign key (country_code) references country (country_id)
+foreign key (country_code) references country (abbr)
 );
 
 drop table if exists tax_custom;
 create table if not exists tax_custom
 (
-tax_code integer not null,
+tax_code integer not null auto_increment,
 restrictions bool not null,
 internation bool not null,
-percentage decimal (4) not null,
-country_code integer not null,
+percentage decimal (3,2) not null,
+country_code varchar(2) not null,
 primary key (tax_code),
-foreign key (country_code) references country (country_id)
+foreign key (country_code) references country(abbr)
 );
 
 drop table if exists shipment;
@@ -160,6 +161,8 @@ destination varchar(9) not null,
 priority integer(1) not null,
 percentage decimal(4) not null,
 tax_code integer not null,
+weight decimal(4,3),
+rate decimal(6,4),
 currency_type integer not null,
 primary key (price_code),
 foreign key (tax_code) references tax_custom (tax_code),
@@ -169,7 +172,7 @@ foreign key (currency_type) references currency (currency_id)
 drop table if exists route;
 create table if not exists route
 (
-route_id integer not null,
+route_id integer not null auto_increment,
 origin varchar(9) not null,
 destination varchar(9) not null,
 route_name varchar(9),
@@ -185,7 +188,7 @@ foreign key (vehicle_id) references vehicle (vehicle_id)
 drop table if exists vehicle;
 create table if not exists vehicle
 (
-vehicle_id integer not null,
+vehicle_id integer not null auto_increment,
 transport_type varchar(4) not null,
 mpg integer(4),
 max_range integer(6),
@@ -197,7 +200,7 @@ foreign key (stored_warehouse_num) references warehouse (warehouse_id)
 drop table if exists package;
 create table if not exists package
 (
-package_id integer not null,
+package_id integer not null auto_increment,
 package_type varchar(4) not null,
 weight decimal(5) not null,
 insured bool not null,
@@ -225,6 +228,28 @@ amount decimal(8) not null,
 type_of_insurance varchar(5) not null,
 primary key (insurance_id),
 foreign key (transaction_id) references package (package_id)
+);
+
+drop table if exists state;
+create table if not exists state
+(
+state_id varchar(2),
+state_name varchar(25),
+start_postal integer(9),
+end_postal integer(9),
+country_id  integer,
+primary key (state_id),
+foreign key(country_id) references country(country_id)
+);
+drop table if exists accessorial;
+create table if not exists accessorial
+(
+acc_id integer not null auto_increment,
+acc_code varchar(3) not null,
+acc_name varchar(50) not null,
+service varchar(3) not null,
+flat_rate decimal(5,3),
+primary key (acc_id, acc_code) 
 );
 
 set FOREIGN_KEY_CHECKS = 1;
