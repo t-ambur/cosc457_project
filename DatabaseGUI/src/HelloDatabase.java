@@ -10,6 +10,6 @@ public class HelloDatabase {
     	Database db = new Database();
     	
     	// Create the GUI and pass it the database object
-    	Display display = new Display("FedUps", 700, 700, db);
+    	Display display = new Display("FedUps Employee System", 700, 700, db);
     }
 }

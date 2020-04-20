@@ -1,6 +1,11 @@
 
 
 import java.awt.BorderLayout;
+
+// TODO
+// MAKE NEW EMPLOYEES RETURN NUMBER
+// FINISH PACKAGE
+
 import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -14,7 +19,7 @@ public class Display {
 	Database db;
 	// the window for the program
 	private JFrame frame;
-	// init variables for program
+	// init variables for program window
 	private String title;
 	private int width, height;
 	// Panels that make up the interior of the window
@@ -25,8 +30,11 @@ public class Display {
 	private JButton lookupButton;
 	private JButton employeeButton;
 	private JButton customerButton;
+	private JButton packageButton;
 	// fields that go in the input panel
 	private JTextArea outputArea;
+	// for retrieving output from database
+	List<String[]> rows;
 	
 	//protected static Dimension mapSize;
 	
@@ -77,7 +85,7 @@ public class Display {
 	
 	private void addButtons()
 	{
-		lookupButton = new JButton("Lookup");
+		lookupButton = new JButton("SQL_Lookup");
 		lookupButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -103,6 +111,15 @@ public class Display {
 			}
 		});
 		buttonPanel.add(customerButton);
+		
+		packageButton = new JButton("New Package");
+		packageButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				newPackage();
+			}
+		});
+		buttonPanel.add(packageButton);
 	}
 	
 	private void welcome()
@@ -133,7 +150,7 @@ public class Display {
 			{
 				outputArea.setText("");
 				String input = area1.getText();
-				List<String[]> rows = new ArrayList<String[]>();
+				rows = new ArrayList<String[]>();
 				rows = db.querySelect(input);
 				String[] r = ConsoleHandler.getRowStrings(rows);
 				for (int i = 0; i < r.length; i++)
@@ -142,6 +159,7 @@ public class Display {
 			}
 		});
 		inputPanel.add(submit);
+		pack();
 	}
 	
 	private void clearInput()
@@ -195,9 +213,13 @@ public class Display {
 		inputPanel.add(box7);
 		
 		JLabel l8 = new JLabel("Sex");
-		JTextField box8 = new JTextField();
+		String[] sexString = {"Male", "Female"};
+		JComboBox<String> sexList = new JComboBox<String>(sexString);
+		sexList.setSelectedIndex(0);
+		//JTextField box8 = new JTextField();
 		inputPanel.add(l8);
-		inputPanel.add(box8);
+		//inputPanel.add(box8);
+		inputPanel.add(sexList);
 		
 		JLabel l10 = new JLabel("Salary");
 		JTextField box10 = new JTextField();
@@ -232,7 +254,12 @@ public class Display {
 				input[4] = "'" + box5.getText() + "', "; // DOB
 				input[5] = "'" + box6.getText() + "', "; // address
 				input[6] = "'" + box7.getText() + "', "; // phone number
-				input[7] = "'" + box8.getText() + "'"; // sex
+				String sex;
+				if (sexList.getSelectedIndex() == 0)
+					sex = "M";
+				else
+					sex = "F";
+				input[7] = "'" + sex + "'"; // sex
 				input[8] = box10.getText() + ", "; // salary
 				input[9] = box11.getText() + ", "; // manager id
 				input[10] = box12.getText() + ", "; // department
@@ -283,7 +310,11 @@ public class Display {
 		
 		if (sql_resp.equals("true"))
 		{
-			status += " -- Employee created.\n"; 
+			status += " Employee created.\n"; 
+			rows = new ArrayList<String[]>();
+			rows = db.querySelect("select employee_id from employee where ssn=" + input[0]);
+			String[] r = ConsoleHandler.getRowStrings(rows);
+			status += "Employee Number: " + r[0];
 		}
 		else
 		{
@@ -337,19 +368,28 @@ public class Display {
 		inputPanel.add(box7);
 		
 		JLabel l8 = new JLabel("Sex");
-		JTextField box8 = new JTextField();
+		String[] sexString = {"Male", "Female"};
+		JComboBox<String> sexList = new JComboBox<String>(sexString);
+		//JTextField box8 = new JTextField();
 		inputPanel.add(l8);
-		inputPanel.add(box8);
+		//inputPanel.add(box8);
+		inputPanel.add(sexList);
 		
 		JLabel l10 = new JLabel("Client Type");
-		JTextField box10 = new JTextField();
+		String[] clientString = {"Individual", "Business"};
+		//JTextField box10 = new JTextField();
+		JComboBox<String> clientList = new JComboBox<String>(clientString);
 		inputPanel.add(l10);
-		inputPanel.add(box10);
+		//inputPanel.add(box10);
+		inputPanel.add(clientList);
 		
 		JLabel l11 = new JLabel("Loyality Level");
-		JTextField box11 = new JTextField();
+		String[] loyalArray = {"0", "1", "2", "3"};
+		//JTextField box11 = new JTextField();
+		JComboBox<String> loyalList = new JComboBox<String>(loyalArray);
 		inputPanel.add(l11);
-		inputPanel.add(box11);
+		//inputPanel.add(box11);
+		inputPanel.add(loyalList);
 		
 		JLabel l12 = new JLabel("Email");
 		JTextField box12 = new JTextField();
@@ -369,9 +409,21 @@ public class Display {
 				input[4] = "'" + box5.getText() + "', "; // DOB
 				input[5] = "'" + box6.getText() + "', "; // address
 				input[6] = "'" + box7.getText() + "', "; // phone number
-				input[7] = "'" + box8.getText() + "'"; // sex
-				input[8] = box10.getText() + ", "; // Client Type
-				input[9] = box11.getText() + ", "; // Loyality Level
+				
+				String selected;
+				if (sexList.getSelectedIndex() == 0)
+					selected = "M";
+				else
+					selected = "F";
+				input[7] = "'" + selected + "'"; // sex
+				
+				selected = Integer.toString(clientList.getSelectedIndex());
+				input[8] = selected + ", "; // Client Type
+				
+				selected = loyalArray[loyalList.getSelectedIndex()];
+				input[9] = selected + ", "; // Loyality Level
+				
+				
 				input[10] = "'" + box12.getText() + "', "; // Email, then add SSN again in next method
 				String response = processNewCustomer(input);
 				outputArea.setText(response);
@@ -394,7 +446,6 @@ public class Display {
 			insertPerson += input[i];
 		}
 		String toInsert = Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertPerson);
-		System.out.println(toInsert);
 		sql_resp = db.queryInsert(toInsert);
 
 		if (sql_resp.equals("true"))
@@ -412,19 +463,114 @@ public class Display {
 		}
 		insertCustomer += input[0];
 		toInsert = Constants.getInsertStatement(Constants.CUSTOMER_COLUMNS, insertCustomer);
-		System.out.println(toInsert);
 		sql_resp = db.queryInsert(toInsert);
 		
 		if (sql_resp.equals("true"))
 		{
-			status += " -- Employee created.\n"; 
+			status += " Customer created.\n";
+			rows = new ArrayList<String[]>();
+			rows = db.querySelect("select account_num from customer where ssn=" + input[0]);
+			String[] r = ConsoleHandler.getRowStrings(rows);
+			status += "Account Number: " + r[0];
 		}
 		else
 		{
-			status += " Employee creation error: " + sql_resp + "\n";
+			status += " Customer creation error: " + sql_resp + "\n";
 		}
 		
 		return status;
+	}
+	
+	private void newPackage()
+	{
+		clearInput();
+		
+		JLabel title = new JLabel("Please enter the package's information.");
+		inputPanel.add(title);
+		
+		JLabel l1 = new JLabel("Package Type");
+		JTextField box1 = new JTextField();
+		inputPanel.add(l1);
+		inputPanel.add(box1);
+		
+		JLabel l2 = new JLabel("Weight");
+		JTextField box2 = new JTextField();
+		inputPanel.add(l2);
+		inputPanel.add(box2);
+		
+		JLabel l3 = new JLabel("Insured");
+		JTextField box3 = new JTextField();
+		inputPanel.add(l3);
+		inputPanel.add(box3);
+		
+		JLabel l4 = new JLabel("Accessorial");
+		JTextField box4 = new JTextField();
+		inputPanel.add(l4);
+		inputPanel.add(box4);
+		
+		JLabel l5 = new JLabel("Client Number");
+		JTextField box5 = new JTextField();
+		inputPanel.add(l5);
+		inputPanel.add(box5);
+		
+		JLabel l6 = new JLabel("Store Number");
+		JTextField box6 = new JTextField();
+		inputPanel.add(l6);
+		inputPanel.add(box6);
+		
+		JLabel l7 = new JLabel("Origin");
+		JTextField box7 = new JTextField();
+		inputPanel.add(l7);
+		inputPanel.add(box7);
+		
+		JLabel l8 = new JLabel("Destination"); //////////////////////////////////////////////
+		JTextField box8 = new JTextField();
+		inputPanel.add(l8);
+		inputPanel.add(box8);
+		
+		JLabel l9 = new JLabel("Priority");
+		JTextField box9 = new JTextField();
+		inputPanel.add(l9);
+		inputPanel.add(box9);
+		
+		JLabel l10 = new JLabel("Currency Type");
+		JTextField box10 = new JTextField();
+		inputPanel.add(l10);
+		inputPanel.add(box10);
+		
+		JButton submit = new JButton("Submit");
+		submit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				outputArea.setText("Processing... Please Wait");
+				String[] input = new String[10];
+				input[0] = box1.getText() + ", "; //package type
+				input[1] = box2.getText() + ", "; // weight
+				input[2] = box3.getText() + ", "; // insured
+				input[3] = "'" + box4.getText() + "', "; // access
+				input[4] = box5.getText() + ", "; // client num
+				input[5] = box6.getText() + ", "; // store num --------
+				input[6] = "'" + box7.getText() + "', "; // origin
+				input[7] = "'" + box8.getText() + "'"; // destination
+				input[8] = box9.getText() + ", "; // priority
+				input[9] = box10.getText(); // currency type
+				String response = processPackage(input);
+				outputArea.setText(response);
+				pack();
+			}
+		});
+		inputPanel.add(submit);
+		pack();
+	}
+	
+	private String processPackage(String[] input)
+	{
+		String insertPackage = "";
+		String insertRate = "";
+		String status = "";
+		String sql_resp;
+		
+		return "not implemented yet";
 	}
 	
 	public void pack()
