@@ -15,11 +15,13 @@ public class HelloDatabase {
     	List<String[]> rows = new ArrayList<String[]>();
     	
     	// example of an insert statement
-    	String insertValues = "987654321, 'Created', 'Java', 'W', '2020-4-16', '987 West St', '4334330001', 'M'";
-    	db.queryInsert(Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertValues));
+    	//String insertValues = "987654321, 'Created', 'Java', 'W', '2020-4-16', '987 West St', '4334330001', 'M'";
+    	//db.queryInsert(Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertValues));
     	
     	// example of a select statement using the database object
-    	rows = db.querySelect("SELECT * FROM PERSON");
+    	rows = db.querySelect("SELECT * FROM DEPARTMENT");
     	ConsoleHandler.printRows(rows);
+    	
+    	Display display = new Display("FedUps", 700, 700);
     }
 }
