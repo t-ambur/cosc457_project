@@ -94,16 +94,19 @@ public class Database {
 		return rows;
 	}
 	
-	public boolean queryInsert(String query)
+	public String queryInsert(String query)
 	{
-		boolean success = false;
+		String success = "false";
 		try
 		{
-			success = stmt.execute(query);
+			stmt.execute(query);
+			success = "true";
 		}
 		catch (SQLException e)
 		{
 			System.err.println("SQL error, code: " + e);
+			success = "Error Inserting, code: ";
+			success += e.toString();
 		}
 		return success;
 	}

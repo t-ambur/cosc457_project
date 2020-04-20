@@ -36,7 +36,7 @@ drop table if exists customer;
 drop table if exists client;
 create table if not exists customer
 (
-account_num integer not null,
+account_num integer not null auto_increment,
 client_type char not null,
 loyality_level int(2),
 email varchar(30),
@@ -139,7 +139,7 @@ foreign key (country_code) references country(abbr)
 drop table if exists shipment;
 create table if not exists shipment
 (
-shipment_id integer not null,
+shipment_id integer not null auto_increment,
 priority int(1) not null,
 is_complete bool not null,
 completion_time datetime,
@@ -155,7 +155,7 @@ foreign key (last_route) references route (route_id)
 drop table if exists rate;
 create table if not exists rate
 (
-price_code integer not null,
+price_code integer not null auto_increment,
 origin varchar(9) not null,
 destination varchar(9) not null,
 priority integer(1) not null,
@@ -221,7 +221,7 @@ foreign key (store_processed) references store (store_id)
 drop table if exists insurance;
 create table if not exists insurance
 (
-insurance_id integer not null,
+insurance_id integer not null auto_increment,
 transaction_id integer not null,
 name_of_insurance varchar (50) not null,
 amount decimal(8) not null,
