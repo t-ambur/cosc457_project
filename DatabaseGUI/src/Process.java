@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO
+// UPDATE PRICE CODE IN processPackage
+
 public class Process {
 	
 	Database db;
@@ -113,11 +116,36 @@ public class Process {
 	public String processPackage(String[] input)
 	{
 		String insertPackage = "";
-		String insertRate = "";
 		String status = "";
 		String sql_resp;
 		
-		return "not implemented yet";
+		// insert into package
+		for (int i = 0; i < 3; i++)
+			insertPackage += input[i]; // package_type, weight, insured
+		if (input[3].equals("'', "))//access
+			insertPackage += " null, ";
+		insertPackage += " 1, "; // shipment id
+		insertPackage += "False, False, "; // is shipped, is complete
+		insertPackage += input[4]; // client number
+		// TODO
+		// update price code, reflect price code in output to user
+		insertPackage += " 1, "; /////////////////////////////////// UPDATE PRICE CODE
+		insertPackage += input[5]; // store num
+		
+		String toInsert = Constants.getInsertStatement(Constants.PACKAGE_COLUMNS, insertPackage);
+		System.out.println(toInsert);
+		sql_resp = db.queryInsert(toInsert);
+		if (sql_resp.equals("true"))
+		{
+			status += "Success. Package created.\n";
+			status += "Total Cost: 0";
+		}
+		else
+		{
+			status += "Package creation error: " + sql_resp + "\n";
+		}
+		
+		return status;
 	}
 	
 	public String[] sqlLookup(String text)
@@ -129,7 +157,14 @@ public class Process {
 	
 	public String[] sqlLookup(String table, String attribute, String search)
 	{
-		rows = db.querySelect(table, attribute, search);
+		if (attribute.equals("") && search.equals(""))
+		{
+			rows = db.queryLimit(table);
+		}
+		else if (attribute.equals("") || search.equals(""))
+			return new String[]{"Invalid Search"};
+		else
+			rows = db.querySelect(table, attribute, search);
 		String[] r = ConsoleHandler.getRowStrings(rows);
 		return r;
 	}

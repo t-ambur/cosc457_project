@@ -36,11 +36,6 @@ public class Database {
 		init(LOCAL_URL, user, pass);
 	}
 	
-	public Database(String url, String user, String pass)
-	{
-		init(url, user, pass);
-	}
-	
 	// generic intializer for all constructors
 	private void init(String url, String user, String pass)
 	{
@@ -96,7 +91,15 @@ public class Database {
 	
 	public List<String[]> querySelect(String table, String attribute, String search)
 	{
-		String query = "select * from " + table + " where " + attribute + " = " + search;
+		String query = "select * from " + table + " where " + attribute + " = '" + search + "'";
+		query = query.replaceAll("\\n|\\r", " ");
+		return querySelect(query);
+	}
+	
+	public List<String[]> queryLimit(String table)
+	{
+		String query = "select * from " + table + " limit " + Constants.LIMIT_ALL;
+		query = query.replaceAll("\\n|\\r", " ");
 		return querySelect(query);
 	}
 	

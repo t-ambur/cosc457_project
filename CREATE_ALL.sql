@@ -206,7 +206,7 @@ package_id integer not null auto_increment,
 package_type varchar(4) not null,
 weight decimal(5) not null,
 insured bool not null,
-accessorial varchar(3) not null,
+accessorial varchar(3),
 shipment_id integer not null,
 is_shipped boolean not null,
 is_complete boolean not null,
@@ -295,7 +295,6 @@ insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Rea
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Dollar', 'CAD', 0.703037, 'CA');
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Franc', 'CHF', 1.023646, 'SW');
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Yuan', 'RMB', 0.121017, 'CN');
-insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Euro', 'EUR', 1.081400, 'GE');
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Rupee', 'INR', 0.013127, 'IN');
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Yen', 'JPY', 0.009226, 'JP');
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Peso', 'MXN', 0.398746, 'MX');
@@ -303,7 +302,6 @@ insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Rup
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Peso', 'PHP', 0.0119729, 'PH');
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Pound', 'GBP', 1.223300, 'GB');
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Ruble', 'RUB', 0.013072, 'RU');
-insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Dollar', 'USD', 1.00000, 'US');
 insert into currency(name,abbr,conversion_rate_to_US, country_code) values ('Peso', 'CLP', 0.001155, 'CL');
 
 

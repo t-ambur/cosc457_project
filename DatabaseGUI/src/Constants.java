@@ -10,11 +10,29 @@ public class Constants {
 	public static final String CUSTOMER_COLUMNS = "insert into customer(client_type, loyality_level, email,"
 			+ "ssn) values(";
 	
+	public static final String RATE_COLUMNS = "insert into rate(origin, destination, priority, percentage, tax_code,"
+			+ "weight, rate, currency_type) values(";
+	
+	public static final String PACKAGE_COLUMNS = "insert into package(package_type, weight, insured, accessorial, shipment_id, is_shipped,"
+			+ "is_complete, client_number, price_code, store_processed) values(";
+	
+	/////////////
+	
 	public static final String[] TABLES = {"accessorial", "Building", "Country", "Currency", "Customer", "Department", "Employee",
 			"Insurance", "Package", "Person", "Rate", "Route", "Shipment", "State", "Store", "Tax_Custom",
 			"Vehicle", "Warehouse", "Zone"};
 	
+	public static final String[] CURRENCY_ABBR = {"AED", "AFA", "USD", "AUD", "BDT", "EUR", "BOB", "BRL", "CAD", "CHF", "RMD",
+			"INR", "JPY", "MXN", "NPR", "PHP", "GBP", "RUB", "CLP"}; // id is index+1
+	
+	
+	//////////////
+	
 	public static final int MAX_COLUMNS = 30;
+	public static final int LIMIT_ALL = 35;
+	
+	////////////
+	
 	
 	public static String getInsertStatement(String table, String values)
 	{

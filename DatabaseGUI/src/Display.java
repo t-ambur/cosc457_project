@@ -23,14 +23,10 @@ public class Display {
 	private JPanel outputPanel;
 	// persistent outputArea at bottom of screen
 	private JTextArea outputArea;
-	// buttons that need to remain
-	JButton newCustomer;
-	// a factory class for abstracting away construction
+	// a factory class for abstracting away construction of UI components
 	JFactory factory;
 	// a class to handle processing to the database
 	Process process;
-	
-	//protected static Dimension mapSize;
 	
 	public Display(String title, int width, int height, Database db){
 		this.title = title;
@@ -130,6 +126,9 @@ public class Display {
 		
 		JTextField searchCriteria = factory.createTextField("What are you searching for?", inputPanel);
 		
+		factory.createLabel("You can select a blank value for attribute to search all (limit " +
+				Constants.LIMIT_ALL + ")", inputPanel);
+		
 		table.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -156,8 +155,12 @@ public class Display {
 			public void actionPerformed(ActionEvent e)
 			{
 				clearOutput();
+				Object selectedAttribute = attributesList.getSelectedItem();
+				String selectedString = "";
+				if (selectedAttribute != null)
+					selectedString = selectedAttribute.toString();
 				String[] r = process.sqlLookup(table.getSelectedItem().toString(),
-						attributesList.getSelectedItem().toString(), searchCriteria.getText());
+						selectedString, searchCriteria.getText());
 				ComboBoxModel<String> c = attributesList.getModel();
 				for (int i = 0; i < c.getSize(); i++)
 				{
@@ -213,7 +216,10 @@ public class Display {
 		
 		JTextField box10 = factory.createTextField("Salary", inputPanel);
 		JTextField box11 = factory.createTextField("Manager ID", inputPanel);
-		JTextField box12 = factory.createTextField("Department Number", inputPanel);
+		
+		String[] depString = {"1", "2", "3", "4", "5"};
+		JComboBox<String> departmentList = factory.createDropdown("Department Number", inputPanel, depString);
+		
 		JTextField box13 = factory.createTextField("Building Number", inputPanel);
 		
 		JButton submit = new JButton("Submit");
@@ -237,7 +243,8 @@ public class Display {
 				input[7] = "'" + sex + "'"; // sex
 				input[8] = box10.getText() + ", "; // salary
 				input[9] = box11.getText() + ", "; // manager id
-				input[10] = box12.getText() + ", "; // department
+				String dep = depString[departmentList.getSelectedIndex()];
+				input[10] = dep + ", "; // department
 				input[11] = box13.getText(); // building
 				String response = process.processNewEmployee(input);
 				outputArea.setText(response);
@@ -291,7 +298,7 @@ public class Display {
 					selected = "F";
 				input[7] = "'" + selected + "'"; // sex
 				
-				selected = Integer.toString(clientList.getSelectedIndex());
+				selected = clientString[clientList.getSelectedIndex()];
 				input[8] = selected + ", "; // Client Type
 				
 				selected = loyalArray[loyalList.getSelectedIndex()];
@@ -313,16 +320,26 @@ public class Display {
 		clear();
 		factory.createLabel("Please enter the package's information.",inputPanel);
 		
-		JTextField box1 = factory.createTextField("Package Type", inputPanel);
+		String[] packageString = {"Opt1", "Opt2"};
+		JComboBox<String> packageList = factory.createDropdown("Package Type", inputPanel, packageString);
+		
 		JTextField box2 = factory.createTextField("Weight", inputPanel);
-		JTextField box3 = factory.createTextField("Insured", inputPanel);
+		
+		String[] insString = {"True", "False"};
+		JComboBox<String> insList = factory.createDropdown("Insured", inputPanel, insString);
+		
 		JTextField box4 = factory.createTextField("Accessorial", inputPanel);
 		JTextField box5 = factory.createTextField("Client Number", inputPanel);
 		JTextField box6 = factory.createTextField("Store Number", inputPanel);
 		JTextField box7 = factory.createTextField("Origin", inputPanel);
 		JTextField box8 = factory.createTextField("Destination", inputPanel);
-		JTextField box9 = factory.createTextField("Priority", inputPanel);
-		JTextField box10 = factory.createTextField("Currency Type", inputPanel);
+		
+		
+		String[] prString = {"1", "2", "3"};
+		JComboBox<String> prList = factory.createDropdown("Priority", inputPanel, prString);
+		
+		String[] curString = Constants.CURRENCY_ABBR;
+		JComboBox<String> curList = factory.createDropdown("Currency Type", inputPanel, curString);
 		
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new ActionListener() {
@@ -330,16 +347,16 @@ public class Display {
 			{
 				outputArea.setText("Processing... Please Wait");
 				String[] input = new String[10];
-				input[0] = box1.getText() + ", "; //package type
+				input[0] = "'" + packageList.getSelectedItem().toString() + "', "; //package type
 				input[1] = box2.getText() + ", "; // weight
-				input[2] = box3.getText() + ", "; // insured
+				input[2] = insList.getSelectedItem().toString() + ", "; // insured
 				input[3] = "'" + box4.getText() + "', "; // access
 				input[4] = box5.getText() + ", "; // client num
-				input[5] = box6.getText() + ", "; // store num --------
+				input[5] = box6.getText(); // store num --------
 				input[6] = "'" + box7.getText() + "', "; // origin
 				input[7] = "'" + box8.getText() + "'"; // destination
-				input[8] = box9.getText() + ", "; // priority
-				input[9] = box10.getText(); // currency type
+				input[8] = prList.getSelectedItem().toString() + ", "; // priority
+				input[9] = curList.getSelectedItem().toString(); // currency type
 				String response = process.processPackage(input);
 				outputArea.setText(response);
 				pack();
@@ -354,7 +371,6 @@ public class Display {
 		inputPanel.removeAll();
 		inputPanel.revalidate();
 		inputPanel.repaint();
-		clearOutput();
 	}
 	
 	private void clearOutput()
