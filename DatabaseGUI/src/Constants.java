@@ -10,6 +10,12 @@ public class Constants {
 	public static final String CUSTOMER_COLUMNS = "insert into customer(client_type, loyality_level, email,"
 			+ "ssn) values(";
 	
+	public static final String[] TABLES = {"accessorial", "Building", "Country", "Currency", "Customer", "Department", "Employee",
+			"Insurance", "Package", "Person", "Rate", "Route", "Shipment", "State", "Store", "Tax_Custom",
+			"Vehicle", "Warehouse", "Zone"};
+	
+	public static final int MAX_COLUMNS = 30;
+	
 	public static String getInsertStatement(String table, String values)
 	{
 		return table + values + ");";

@@ -3,13 +3,11 @@
 import java.awt.BorderLayout;
 
 // TODO
-// MAKE NEW EMPLOYEES RETURN NUMBER
+// EMPLOYEE LOOKUP
 // FINISH PACKAGE
 
 import java.awt.FlowLayout;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.*;
 
@@ -82,10 +80,16 @@ public class Display {
 	
 	private void addButtons()
 	{
-		factory.createButton("SQL_Lookup", buttonPanel, new ActionListener() {
+		factory.createButton("Lookup", buttonPanel, new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				lookup();
+			}
+		});
+		factory.createButton("SQL_Lookup", buttonPanel, new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				sqlLookup();
 			}
 		});
 		factory.createButton("New Employee", buttonPanel, new ActionListener() {
@@ -116,13 +120,72 @@ public class Display {
 	
 	private void lookup()
 	{
-		clearInput();
+		clear();
+		
+		String[] options = Constants.TABLES;
+		JComboBox<String> table = factory.createDropdown("Search Location:", inputPanel, options);
+		
+		String[] attributes = process.getColumns(0);
+		JComboBox<String> attributesList = factory.createDropdown("Available Attributes", inputPanel, attributes);
+		
+		JTextField searchCriteria = factory.createTextField("What are you searching for?", inputPanel);
+		
+		table.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				clearOutput();
+				outputArea.setText("Finding search fields...");
+				String[] attributes = process.getColumns(table.getSelectedIndex());
+				if (attributes != null)
+				{
+					clearOutput();
+					DefaultComboBoxModel<String> available = new DefaultComboBoxModel<String>(attributes);
+					attributesList.setModel(available);
+					pack();
+				}
+				else
+				{
+					clearOutput();
+					outputArea.setText("An error occured while retrieving attribute names.");
+					pack();
+				}
+			}
+		});
+		
+		factory.createButton("Submit", inputPanel, new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				clearOutput();
+				String[] r = process.sqlLookup(table.getSelectedItem().toString(),
+						attributesList.getSelectedItem().toString(), searchCriteria.getText());
+				ComboBoxModel<String> c = attributesList.getModel();
+				for (int i = 0; i < c.getSize(); i++)
+				{
+					String temp = c.getElementAt(i);
+					if (temp == null)
+						break;
+					temp = temp.replaceAll("\\n|\\r", "");
+					outputArea.append(temp + " | ");
+				}
+				outputArea.append("\n");
+				for (int i = 0; i < r.length; i++)
+					outputArea.append(r[i]);
+				pack();
+			}
+		});
+		
+		pack();
+	}
+	
+	private void sqlLookup()
+	{
+		clear();
 		JTextArea area1 = factory.createArea("Enter your select query:", inputPanel);
 		
 		factory.createButton("Submit", inputPanel, new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				outputArea.setText("");
+				clearOutput();
 				String[] r = process.sqlLookup(area1.getText());
 				for (int i = 0; i < r.length; i++)
 					outputArea.append(r[i]);
@@ -132,17 +195,9 @@ public class Display {
 		pack();
 	}
 	
-	private void clearInput()
-	{
-		inputPanel.removeAll();
-		inputPanel.revalidate();
-		inputPanel.repaint();
-		outputArea.setText("");
-	}
-	
 	private void newEmployee()
 	{
-		clearInput();
+		clear();
 		factory.createLabel("Please enter the employee's details.", inputPanel);
 		
 		JTextField box1 = factory.createTextField("SSN", inputPanel);
@@ -195,7 +250,7 @@ public class Display {
 	
 	private void newCustomer()
 	{
-		clearInput();
+		clear();
 		factory.createLabel("Please enter the customer's details.", inputPanel);
 		
 		JTextField box1 = factory.createTextField("SSN", inputPanel);
@@ -255,7 +310,7 @@ public class Display {
 	
 	private void newPackage()
 	{
-		clearInput();
+		clear();
 		factory.createLabel("Please enter the package's information.",inputPanel);
 		
 		JTextField box1 = factory.createTextField("Package Type", inputPanel);
@@ -292,6 +347,19 @@ public class Display {
 		});
 		inputPanel.add(submit);
 		pack();
+	}
+	
+	private void clear()
+	{
+		inputPanel.removeAll();
+		inputPanel.revalidate();
+		inputPanel.repaint();
+		clearOutput();
+	}
+	
+	private void clearOutput()
+	{
+		outputArea.setText("");
 	}
 	
 	public void pack()

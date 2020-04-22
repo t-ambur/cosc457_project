@@ -94,6 +94,36 @@ public class Database {
 		return rows;
 	}
 	
+	public List<String[]> querySelect(String table, String attribute, String search)
+	{
+		String query = "select * from " + table + " where " + attribute + " = " + search;
+		return querySelect(query);
+	}
+	
+	public String[] tableDescribe(String table)
+	{
+		String sql = "describe " + table;
+		String[] fields = new String[Constants.MAX_COLUMNS];
+		try
+		{
+			result = stmt.executeQuery(sql);
+			int counter = 0;
+			while (result.next() && counter < fields.length)
+			{
+				fields[counter] = result.getString(1) + "\n";
+				counter++;
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQL error, code: " + e);
+			String[] error = new String[1];
+			error[0] = "SQL error, code: " + e;
+			fields = error;
+		}
+		return fields;
+	}
+	
 	public String queryInsert(String query)
 	{
 		String success = "false";

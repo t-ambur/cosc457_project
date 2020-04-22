@@ -126,4 +126,21 @@ public class Process {
 		String[] r = ConsoleHandler.getRowStrings(rows);
 		return r;
 	}
+	
+	public String[] sqlLookup(String table, String attribute, String search)
+	{
+		rows = db.querySelect(table, attribute, search);
+		String[] r = ConsoleHandler.getRowStrings(rows);
+		return r;
+	}
+	
+	public String[] getColumns(int index)
+	{
+		if (index > -1 && index < Constants.TABLES.length)
+		{
+			String table = Constants.TABLES[index];
+			return db.tableDescribe(table);
+		}
+		return null;
+	}
 }
