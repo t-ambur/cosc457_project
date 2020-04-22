@@ -1,0 +1,129 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Process {
+	
+	Database db;
+	List<String[]> rows;
+	
+	public Process(Database d)
+	{
+		this.db = d;
+		rows = new ArrayList<String[]>(); 
+	}
+	
+	public String processNewEmployee(String[] input)
+	{
+		// example of an insert statement
+    	//String insertValues = "987654321, 'Created', 'Java', 'W', '2020-4-16', '987 West St', '4334330001', 'M'";
+    	//db.queryInsert(Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertValues));
+		// ssn first_name last_name m_init DOB address phone sex
+		// ssn employee_id salary manager_id department_num building_num
+		String insertPerson = "";
+		String insertEmployee = "";
+		String status = "";
+		String sql_resp;
+		
+		for (int i = 0; i <= 7; i++)
+		{
+			insertPerson += input[i];
+		}
+		String toInsert = Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertPerson);
+		sql_resp = db.queryInsert(toInsert);
+
+		if (sql_resp.equals("true"))
+		{
+			status += "Person created.\n"; 
+		}
+		else
+		{
+			status += sql_resp + "\n";
+		}
+		
+		insertEmployee += input[0];
+		for (int i = 8; i < input.length; i++)
+		{
+			insertEmployee += input[i];
+		}
+		sql_resp = db.queryInsert(Constants.getInsertStatement(Constants.EMPLOYEE_COLUMNS, insertEmployee));
+		
+		if (sql_resp.equals("true"))
+		{
+			status += " Employee created.\n"; 
+			rows = new ArrayList<String[]>();
+			rows = db.querySelect("select employee_id from employee where ssn=" + input[0]);
+			String[] r = ConsoleHandler.getRowStrings(rows);
+			status += "Employee Number: " + r[0];
+		}
+		else
+		{
+			status += " Employee creation error: " + sql_resp + "\n";
+		}
+		
+		return status;
+	}
+	
+	public String processNewCustomer(String[] input)
+	{
+		String insertPerson = "";
+		String insertCustomer = "";
+		String status = "";
+		String sql_resp;
+		
+		for (int i = 0; i <= 7; i++)
+		{
+			insertPerson += input[i];
+		}
+		String toInsert = Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertPerson);
+		sql_resp = db.queryInsert(toInsert);
+
+		if (sql_resp.equals("true"))
+		{
+			status += "Person created.\n"; 
+		}
+		else
+		{
+			status += sql_resp + "\n";
+		}
+		
+		for (int i = 8; i < input.length; i++)
+		{
+			insertCustomer += input[i];
+		}
+		insertCustomer += input[0];
+		toInsert = Constants.getInsertStatement(Constants.CUSTOMER_COLUMNS, insertCustomer);
+		sql_resp = db.queryInsert(toInsert);
+		
+		if (sql_resp.equals("true"))
+		{
+			status += " Customer created.\n";
+			rows = new ArrayList<String[]>();
+			rows = db.querySelect("select account_num from customer where ssn=" + input[0]);
+			String[] r = ConsoleHandler.getRowStrings(rows);
+			status += "Account Number: " + r[0];
+		}
+		else
+		{
+			status += " Customer creation error: " + sql_resp + "\n";
+		}
+		
+		return status;
+	}
+	
+	public String processPackage(String[] input)
+	{
+		String insertPackage = "";
+		String insertRate = "";
+		String status = "";
+		String sql_resp;
+		
+		return "not implemented yet";
+	}
+	
+	public String[] sqlLookup(String text)
+	{
+		rows = db.querySelect(text);
+		String[] r = ConsoleHandler.getRowStrings(rows);
+		return r;
+	}
+}

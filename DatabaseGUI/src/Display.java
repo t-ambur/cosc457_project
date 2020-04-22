@@ -14,9 +14,6 @@ import java.util.List;
 import javax.swing.*;
 
 public class Display {
-	
-	// An object that represents the database
-	Database db;
 	// the window for the program
 	private JFrame frame;
 	// init variables for program window
@@ -26,23 +23,23 @@ public class Display {
 	private JPanel buttonPanel;
 	private JPanel inputPanel;
 	private JPanel outputPanel;
-	// buttons that go in the button panel
-	private JButton lookupButton;
-	private JButton employeeButton;
-	private JButton customerButton;
-	private JButton packageButton;
-	// fields that go in the input panel
+	// persistent outputArea at bottom of screen
 	private JTextArea outputArea;
-	// for retrieving output from database
-	List<String[]> rows;
+	// buttons that need to remain
+	JButton newCustomer;
+	// a factory class for abstracting away construction
+	JFactory factory;
+	// a class to handle processing to the database
+	Process process;
 	
 	//protected static Dimension mapSize;
 	
-	public Display(String title, int width, int height, Database d){
+	public Display(String title, int width, int height, Database db){
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		this.db = d;
+		factory = new JFactory();
+		process = new Process(db);
 		init();
 	}
 	
@@ -85,80 +82,53 @@ public class Display {
 	
 	private void addButtons()
 	{
-		lookupButton = new JButton("SQL_Lookup");
-		lookupButton.addActionListener(new ActionListener() {
+		factory.createButton("SQL_Lookup", buttonPanel, new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				lookup();
 			}
 		});
-		buttonPanel.add(lookupButton);
-		
-		employeeButton = new JButton("New Employee");
-		employeeButton.addActionListener(new ActionListener() {
+		factory.createButton("New Employee", buttonPanel, new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				newEmployee();
 			}
 		});
-		buttonPanel.add(employeeButton);
-		
-		customerButton = new JButton("New Customer");
-		customerButton.addActionListener(new ActionListener() {
+		factory.createButton("New Customer", buttonPanel, new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				newCustomer();
 			}
 		});
-		buttonPanel.add(customerButton);
-		
-		packageButton = new JButton("New Package");
-		packageButton.addActionListener(new ActionListener() {
+		factory.createButton("New Package", buttonPanel, new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				newPackage();
 			}
 		});
-		buttonPanel.add(packageButton);
 	}
 	
 	private void welcome()
 	{
-		JLabel labelTop = new JLabel();
-		labelTop.setText("Welcome to the FedUps Employee shipping application.");
-		inputPanel.add(labelTop);
-		
-		JLabel label2 = new JLabel();
-		label2.setText("Choose an option on the left to begin.");
-		inputPanel.add(label2);
+		factory.createLabel("Welcome to the FedUps Employee shipping application.", inputPanel);
+		factory.createLabel("Choose an option on the left to begin.", inputPanel);
 	}
 	
 	private void lookup()
 	{
 		clearInput();
-		JLabel labelTop = new JLabel();
-		labelTop.setText("Enter your select query:");
-		inputPanel.add(labelTop);
+		JTextArea area1 = factory.createArea("Enter your select query:", inputPanel);
 		
-		JTextArea area1 = new JTextArea();
-		inputPanel.add(area1);
-		
-		
-		JButton submit = new JButton("Submit");
-		submit.addActionListener(new ActionListener() {
+		factory.createButton("Submit", inputPanel, new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				outputArea.setText("");
-				String input = area1.getText();
-				rows = new ArrayList<String[]>();
-				rows = db.querySelect(input);
-				String[] r = ConsoleHandler.getRowStrings(rows);
+				String[] r = process.sqlLookup(area1.getText());
 				for (int i = 0; i < r.length; i++)
 					outputArea.append(r[i]);
 				pack();
 			}
 		});
-		inputPanel.add(submit);
 		pack();
 	}
 	
@@ -173,73 +143,23 @@ public class Display {
 	private void newEmployee()
 	{
 		clearInput();
-		JLabel title = new JLabel("Please enter the employee's details.");
-		inputPanel.add(title);
-		// ssn first_name last_name m_init DOB address phone sex
-		// ssn employee_id salary manager_id department_num building_num
-		JLabel l1 = new JLabel("SSN");
-		JTextField box1 = new JTextField();
-		inputPanel.add(l1);
-		inputPanel.add(box1);
+		factory.createLabel("Please enter the employee's details.", inputPanel);
 		
-		JLabel l2 = new JLabel("First Name");
-		JTextField box2 = new JTextField();
-		inputPanel.add(l2);
-		inputPanel.add(box2);
+		JTextField box1 = factory.createTextField("SSN", inputPanel);
+		JTextField box2 = factory.createTextField("First Name", inputPanel);
+		JTextField box3 = factory.createTextField("Last Name", inputPanel);
+		JTextField box4 = factory.createTextField("Middle Initial", inputPanel);
+		JTextField box5 = factory.createTextField("DOB: YYYY-MM-DD", inputPanel);
+		JTextField box6 = factory.createTextField("Address", inputPanel);
+		JTextField box7 = factory.createTextField("Phone Number", inputPanel);
 		
-		JLabel l3 = new JLabel("Last Name");
-		JTextField box3 = new JTextField();
-		inputPanel.add(l3);
-		inputPanel.add(box3);
-		
-		JLabel l4 = new JLabel("Middle Initial");
-		JTextField box4 = new JTextField();
-		inputPanel.add(l4);
-		inputPanel.add(box4);
-		
-		JLabel l5 = new JLabel("DOB: YYYY-MM-DD");
-		JTextField box5 = new JTextField();
-		inputPanel.add(l5);
-		inputPanel.add(box5);
-		
-		JLabel l6 = new JLabel("Address");
-		JTextField box6 = new JTextField();
-		inputPanel.add(l6);
-		inputPanel.add(box6);
-		
-		JLabel l7 = new JLabel("Phone Number");
-		JTextField box7 = new JTextField();
-		inputPanel.add(l7);
-		inputPanel.add(box7);
-		
-		JLabel l8 = new JLabel("Sex");
 		String[] sexString = {"Male", "Female"};
-		JComboBox<String> sexList = new JComboBox<String>(sexString);
-		sexList.setSelectedIndex(0);
-		//JTextField box8 = new JTextField();
-		inputPanel.add(l8);
-		//inputPanel.add(box8);
-		inputPanel.add(sexList);
+		JComboBox<String> sexList = factory.createDropdown("Sex", inputPanel, sexString);
 		
-		JLabel l10 = new JLabel("Salary");
-		JTextField box10 = new JTextField();
-		inputPanel.add(l10);
-		inputPanel.add(box10);
-		
-		JLabel l11 = new JLabel("manager ID");
-		JTextField box11 = new JTextField();
-		inputPanel.add(l11);
-		inputPanel.add(box11);
-		
-		JLabel l12 = new JLabel("Department Number");
-		JTextField box12 = new JTextField();
-		inputPanel.add(l12);
-		inputPanel.add(box12);
-		
-		JLabel l13 = new JLabel("Building Number");
-		JTextField box13 = new JTextField();
-		inputPanel.add(l13);
-		inputPanel.add(box13);
+		JTextField box10 = factory.createTextField("Salary", inputPanel);
+		JTextField box11 = factory.createTextField("Manager ID", inputPanel);
+		JTextField box12 = factory.createTextField("Department Number", inputPanel);
+		JTextField box13 = factory.createTextField("Building Number", inputPanel);
 		
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new ActionListener() {
@@ -264,7 +184,7 @@ public class Display {
 				input[9] = box11.getText() + ", "; // manager id
 				input[10] = box12.getText() + ", "; // department
 				input[11] = box13.getText(); // building
-				String response = processNewEmployee(input);
+				String response = process.processNewEmployee(input);
 				outputArea.setText(response);
 				pack();
 			}
@@ -273,128 +193,27 @@ public class Display {
 		pack();
 	}
 	
-	private String processNewEmployee(String[] input)
-	{
-		// example of an insert statement
-    	//String insertValues = "987654321, 'Created', 'Java', 'W', '2020-4-16', '987 West St', '4334330001', 'M'";
-    	//db.queryInsert(Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertValues));
-		// ssn first_name last_name m_init DOB address phone sex
-		// ssn employee_id salary manager_id department_num building_num
-		String insertPerson = "";
-		String insertEmployee = "";
-		String status = "";
-		String sql_resp;
-		
-		for (int i = 0; i <= 7; i++)
-		{
-			insertPerson += input[i];
-		}
-		String toInsert = Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertPerson);
-		sql_resp = db.queryInsert(toInsert);
-
-		if (sql_resp.equals("true"))
-		{
-			status += "Person created.\n"; 
-		}
-		else
-		{
-			status += sql_resp + "\n";
-		}
-		
-		insertEmployee += input[0];
-		for (int i = 8; i < input.length; i++)
-		{
-			insertEmployee += input[i];
-		}
-		sql_resp = db.queryInsert(Constants.getInsertStatement(Constants.EMPLOYEE_COLUMNS, insertEmployee));
-		
-		if (sql_resp.equals("true"))
-		{
-			status += " Employee created.\n"; 
-			rows = new ArrayList<String[]>();
-			rows = db.querySelect("select employee_id from employee where ssn=" + input[0]);
-			String[] r = ConsoleHandler.getRowStrings(rows);
-			status += "Employee Number: " + r[0];
-		}
-		else
-		{
-			status += " Employee creation error: " + sql_resp + "\n";
-		}
-		
-		return status;
-	}
-	
 	private void newCustomer()
 	{
 		clearInput();
-		// ssn first_name last_name m_init DOB address phone sex
-		// account_num client_type loyality_level email ssn
-		JLabel title = new JLabel("Please enter the customer's details.");
-		inputPanel.add(title);
+		factory.createLabel("Please enter the customer's details.", inputPanel);
 		
-		JLabel l1 = new JLabel("SSN");
-		JTextField box1 = new JTextField();
-		inputPanel.add(l1);
-		inputPanel.add(box1);
+		JTextField box1 = factory.createTextField("SSN", inputPanel);
+		JTextField box2 = factory.createTextField("First Name", inputPanel);
+		JTextField box3 = factory.createTextField("Last Name", inputPanel);
+		JTextField box4 = factory.createTextField("Middle Initial", inputPanel);
+		JTextField box5 = factory.createTextField("DOB: YYYY-MM-DD", inputPanel);
+		JTextField box6 = factory.createTextField("Address", inputPanel);
+		JTextField box7 = factory.createTextField("Phone Number", inputPanel);
 		
-		JLabel l2 = new JLabel("First Name");
-		JTextField box2 = new JTextField();
-		inputPanel.add(l2);
-		inputPanel.add(box2);
-		
-		JLabel l3 = new JLabel("Last Name");
-		JTextField box3 = new JTextField();
-		inputPanel.add(l3);
-		inputPanel.add(box3);
-		
-		JLabel l4 = new JLabel("Middle Initial");
-		JTextField box4 = new JTextField();
-		inputPanel.add(l4);
-		inputPanel.add(box4);
-		
-		JLabel l5 = new JLabel("DOB: YYYY-MM-DD");
-		JTextField box5 = new JTextField();
-		inputPanel.add(l5);
-		inputPanel.add(box5);
-		
-		JLabel l6 = new JLabel("Address");
-		JTextField box6 = new JTextField();
-		inputPanel.add(l6);
-		inputPanel.add(box6);
-		
-		JLabel l7 = new JLabel("Phone Number");
-		JTextField box7 = new JTextField();
-		inputPanel.add(l7);
-		inputPanel.add(box7);
-		
-		JLabel l8 = new JLabel("Sex");
 		String[] sexString = {"Male", "Female"};
-		JComboBox<String> sexList = new JComboBox<String>(sexString);
-		//JTextField box8 = new JTextField();
-		inputPanel.add(l8);
-		//inputPanel.add(box8);
-		inputPanel.add(sexList);
-		
-		JLabel l10 = new JLabel("Client Type");
+		JComboBox<String> sexList = factory.createDropdown("Sex", inputPanel, sexString);
 		String[] clientString = {"Individual", "Business"};
-		//JTextField box10 = new JTextField();
-		JComboBox<String> clientList = new JComboBox<String>(clientString);
-		inputPanel.add(l10);
-		//inputPanel.add(box10);
-		inputPanel.add(clientList);
-		
-		JLabel l11 = new JLabel("Loyality Level");
+		JComboBox<String> clientList = factory.createDropdown("Client Type", inputPanel, clientString);
 		String[] loyalArray = {"0", "1", "2", "3"};
-		//JTextField box11 = new JTextField();
-		JComboBox<String> loyalList = new JComboBox<String>(loyalArray);
-		inputPanel.add(l11);
-		//inputPanel.add(box11);
-		inputPanel.add(loyalList);
+		JComboBox<String> loyalList = factory.createDropdown("Loyality Level", inputPanel, loyalArray);
 		
-		JLabel l12 = new JLabel("Email");
-		JTextField box12 = new JTextField();
-		inputPanel.add(l12);
-		inputPanel.add(box12);
+		JTextField box12 = factory.createTextField("Email", inputPanel);
 		
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new ActionListener() {
@@ -425,7 +244,7 @@ public class Display {
 				
 				
 				input[10] = "'" + box12.getText() + "', "; // Email, then add SSN again in next method
-				String response = processNewCustomer(input);
+				String response = process.processNewCustomer(input);
 				outputArea.setText(response);
 				pack();
 			}
@@ -434,109 +253,21 @@ public class Display {
 		pack();
 	}
 	
-	private String processNewCustomer(String[] input)
-	{
-		String insertPerson = "";
-		String insertCustomer = "";
-		String status = "";
-		String sql_resp;
-		
-		for (int i = 0; i <= 7; i++)
-		{
-			insertPerson += input[i];
-		}
-		String toInsert = Constants.getInsertStatement(Constants.PERSON_COLUMNS, insertPerson);
-		sql_resp = db.queryInsert(toInsert);
-
-		if (sql_resp.equals("true"))
-		{
-			status += "Person created.\n"; 
-		}
-		else
-		{
-			status += sql_resp + "\n";
-		}
-		
-		for (int i = 8; i < input.length; i++)
-		{
-			insertCustomer += input[i];
-		}
-		insertCustomer += input[0];
-		toInsert = Constants.getInsertStatement(Constants.CUSTOMER_COLUMNS, insertCustomer);
-		sql_resp = db.queryInsert(toInsert);
-		
-		if (sql_resp.equals("true"))
-		{
-			status += " Customer created.\n";
-			rows = new ArrayList<String[]>();
-			rows = db.querySelect("select account_num from customer where ssn=" + input[0]);
-			String[] r = ConsoleHandler.getRowStrings(rows);
-			status += "Account Number: " + r[0];
-		}
-		else
-		{
-			status += " Customer creation error: " + sql_resp + "\n";
-		}
-		
-		return status;
-	}
-	
 	private void newPackage()
 	{
 		clearInput();
+		factory.createLabel("Please enter the package's information.",inputPanel);
 		
-		JLabel title = new JLabel("Please enter the package's information.");
-		inputPanel.add(title);
-		
-		JLabel l1 = new JLabel("Package Type");
-		JTextField box1 = new JTextField();
-		inputPanel.add(l1);
-		inputPanel.add(box1);
-		
-		JLabel l2 = new JLabel("Weight");
-		JTextField box2 = new JTextField();
-		inputPanel.add(l2);
-		inputPanel.add(box2);
-		
-		JLabel l3 = new JLabel("Insured");
-		JTextField box3 = new JTextField();
-		inputPanel.add(l3);
-		inputPanel.add(box3);
-		
-		JLabel l4 = new JLabel("Accessorial");
-		JTextField box4 = new JTextField();
-		inputPanel.add(l4);
-		inputPanel.add(box4);
-		
-		JLabel l5 = new JLabel("Client Number");
-		JTextField box5 = new JTextField();
-		inputPanel.add(l5);
-		inputPanel.add(box5);
-		
-		JLabel l6 = new JLabel("Store Number");
-		JTextField box6 = new JTextField();
-		inputPanel.add(l6);
-		inputPanel.add(box6);
-		
-		JLabel l7 = new JLabel("Origin");
-		JTextField box7 = new JTextField();
-		inputPanel.add(l7);
-		inputPanel.add(box7);
-		
-		JLabel l8 = new JLabel("Destination"); //////////////////////////////////////////////
-		JTextField box8 = new JTextField();
-		inputPanel.add(l8);
-		inputPanel.add(box8);
-		
-		JLabel l9 = new JLabel("Priority");
-		JTextField box9 = new JTextField();
-		inputPanel.add(l9);
-		inputPanel.add(box9);
-		
-		JLabel l10 = new JLabel("Currency Type");
-		JTextField box10 = new JTextField();
-		inputPanel.add(l10);
-		inputPanel.add(box10);
+		JTextField box1 = factory.createTextField("Package Type", inputPanel);
+		JTextField box2 = factory.createTextField("Weight", inputPanel);
+		JTextField box3 = factory.createTextField("Insured", inputPanel);
+		JTextField box4 = factory.createTextField("Accessorial", inputPanel);
+		JTextField box5 = factory.createTextField("Client Number", inputPanel);
+		JTextField box6 = factory.createTextField("Store Number", inputPanel);
+		JTextField box7 = factory.createTextField("Origin", inputPanel);
+		JTextField box8 = factory.createTextField("Destination", inputPanel);
+		JTextField box9 = factory.createTextField("Priority", inputPanel);
+		JTextField box10 = factory.createTextField("Currency Type", inputPanel);
 		
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new ActionListener() {
@@ -554,23 +285,13 @@ public class Display {
 				input[7] = "'" + box8.getText() + "'"; // destination
 				input[8] = box9.getText() + ", "; // priority
 				input[9] = box10.getText(); // currency type
-				String response = processPackage(input);
+				String response = process.processPackage(input);
 				outputArea.setText(response);
 				pack();
 			}
 		});
 		inputPanel.add(submit);
 		pack();
-	}
-	
-	private String processPackage(String[] input)
-	{
-		String insertPackage = "";
-		String insertRate = "";
-		String status = "";
-		String sql_resp;
-		
-		return "not implemented yet";
 	}
 	
 	public void pack()
