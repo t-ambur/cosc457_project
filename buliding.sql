@@ -1,0 +1,1 @@
+insert into building(location, name,

@@ -1,0 +1,34 @@
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
+
+

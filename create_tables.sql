@@ -60,9 +60,9 @@ foreign key (manager_id) references employee (employee_id)
 drop table if exists building;
 create table if not exists building
 (
-b_number integer not null,
+b_number integer not null auto_increment,
 location varchar(50) not null,
-name varchar(10),
+name varchar(50),
 primary key (b_number)
 );
 
@@ -157,16 +157,12 @@ create table if not exists rate
 (
 price_code integer not null auto_increment,
 origin varchar(9) not null,
-destination varchar(9) not null,
-priority integer(1) not null,
-percentage decimal(4) not null,
-tax_code integer not null,
-weight decimal(4,3),
-rate decimal(6,4),
-currency_type integer not null,
+priority varchar(3) not null,
+zone integer(1) not null,
+weight decimal(3,1),
+rate decimal(4,2),
 primary key (price_code),
-foreign key (tax_code) references tax_custom (tax_code),
-foreign key (currency_type) references currency (currency_id)
+foreign key (zone) references zone (zone_id)
 );
 
 drop table if exists route;

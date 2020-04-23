@@ -1,4 +1,4 @@
-insert into tax_custom(restrictions,internation,percentage,country_code) values( false, false, 1., 'AE');
+insert into tax_custom(restrictions,internation,percentage,country_code) values( false, false, 1, 'AE');
 insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.02, 'AR');
 insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.02, 'AU');
 insert into tax_custom(restrictions,internation,percentage,country_code) values(false, true, 1.02, 'BE');
