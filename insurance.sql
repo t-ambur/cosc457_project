@@ -1,0 +1,1 @@
+insert into insurance(transaction_id,name_of_insurance

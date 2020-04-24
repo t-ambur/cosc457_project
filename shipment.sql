@@ -1,0 +1,1 @@
+insert into shipment(priority,is_complete,completion_time,last_warehouse,last_route,is_in_transit, requester) values ('1DA', false, '2000-1-1',1,1,false,'US');
