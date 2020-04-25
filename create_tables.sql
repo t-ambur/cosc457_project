@@ -69,7 +69,7 @@ primary key (b_number)
 drop table if exists store;
 create table if not exists store
 (
-store_id integer not null,
+store_id integer not null auto_increment,
 zone_id integer not null,
 owning_dep_num integer not null,
 b_number integer not null,
@@ -82,7 +82,7 @@ foreign key (b_number) references building (b_number)
 drop table if exists warehouse;
 create table if not exists warehouse
 (
-warehouse_id integer not null,
+warehouse_id integer not null auto_increment,
 capacity integer(9),
 owning_dep_num integer not null,
 b_number integer not null,
@@ -140,7 +140,7 @@ drop table if exists shipment;
 create table if not exists shipment
 (
 shipment_id integer not null auto_increment,
-priority int(1) not null,
+priority varchar (3)not null,
 is_complete bool not null,
 completion_time datetime,
 last_warehouse integer not null,
@@ -171,7 +171,7 @@ create table if not exists route
 route_id integer not null auto_increment,
 origin varchar(9) not null,
 destination varchar(9) not null,
-route_name varchar(9),
+route_name varchar(20),
 distance decimal(9),
 time_estimate int(5),
 zone integer not null,
@@ -185,7 +185,7 @@ drop table if exists vehicle;
 create table if not exists vehicle
 (
 vehicle_id integer not null auto_increment,
-transport_type varchar(4) not null,
+transport_type varchar(20) not null,
 mpg integer(4),
 max_range integer(6),
 stored_warehouse_num integer not null,
@@ -218,9 +218,9 @@ drop table if exists insurance;
 create table if not exists insurance
 (
 insurance_id integer not null auto_increment,
-transaction_id integer not null,
+transaction_id integer,
 name_of_insurance varchar (50) not null,
-amount decimal(8) not null,
+amount decimal(4,2) not null,
 type_of_insurance varchar(5) not null,
 primary key (insurance_id),
 foreign key (transaction_id) references package (package_id)

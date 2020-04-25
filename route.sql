@@ -1,0 +1,12 @@
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 42, 1,2);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 2000, 14, 3,1);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 12, 1,3);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'GB', 'Iinternational', 600, 5, 4,7);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('GB', 'GB', 'Domestic', 500, 15, 4,5);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 10, 5,2);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 18, 10,2);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 2000,  20, 11,1);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 48, 3,3);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'GB', 'Iinternational', 600, 56, 1,7);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('GB', 'GB', 'Domestic', 500, 33, 1,5);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 12, 1,2);

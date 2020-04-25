@@ -82,7 +82,7 @@ foreign key (b_number) references building (b_number)
 drop table if exists warehouse;
 create table if not exists warehouse
 (
-warehouse_id integer not null,
+warehouse_id integer not null auto_increment,
 capacity integer(9),
 owning_dep_num integer not null,
 b_number integer not null,
@@ -171,7 +171,7 @@ create table if not exists route
 route_id integer not null auto_increment,
 origin varchar(9) not null,
 destination varchar(9) not null,
-route_name varchar(9),
+route_name varchar(20),
 distance decimal(9),
 time_estimate int(5),
 zone integer not null,
@@ -181,11 +181,12 @@ foreign key (zone) references zone (zone_id),
 foreign key (vehicle_id) references vehicle (vehicle_id)
 );
 
+
 drop table if exists vehicle;
 create table if not exists vehicle
 (
 vehicle_id integer not null auto_increment,
-transport_type varchar(4) not null,
+transport_type varchar(20) not null,
 mpg integer(4),
 max_range integer(6),
 stored_warehouse_num integer not null,
@@ -211,17 +212,16 @@ primary key (package_id),
 foreign key (shipment_id) references shipment (shipment_id),
 foreign key (client_number) references customer (account_num),
 foreign key (price_code) references rate (price_code),
-foreign key (store_processed) references store (store_id),
-foreign key(accessorial) references accessorial(acc_code)
+foreign key (store_processed) references store (store_id)
 );
 
 drop table if exists insurance;
 create table if not exists insurance
 (
 insurance_id integer not null auto_increment,
-transaction_id integer not null,
+transaction_id integer,
 name_of_insurance varchar (50) not null,
-amount decimal(8) not null,
+amount decimal(4,2) not null,
 type_of_insurance varchar(5) not null,
 primary key (insurance_id),
 foreign key (transaction_id) references package (package_id)
@@ -251,7 +251,7 @@ primary key (acc_id, acc_code)
 
 set FOREIGN_KEY_CHECKS = 1;
 
-insert into shipment(priority,is_complete,completion_time,last_warehouse,last_route,is_in_transit, requester) values ('1DA', false, '2000-1-1',1,1,false,'US');
+#insert into shipment(priority,is_complete,completion_time,last_warehouse,last_route,is_in_transit, requester) values ('1DA', false, '2000-1-1',1,1,false,'US');
 
 insert into accessorial(acc_code,acc_name,service,flat_rate) values( 'DDO', 'Direct Delivery Only', '1DM', 5.0000);
 insert into accessorial(acc_code,acc_name,service,flat_rate) values( 'DDO', 'Direct Delivery Only', '2DM', 4.0000);
@@ -384,6 +384,32 @@ insert into insurance(transaction_id,name_of_insurance,amount,type_of_insurance)
 insert into insurance(transaction_id,name_of_insurance,amount,type_of_insurance) values(null, 'Plus protection', 10.00, 'Plus');
 insert into insurance(transaction_id,name_of_insurance,amount,type_of_insurance) values(null, 'Premium protection', 15.00, 'Prem');
 insert into insurance(transaction_id,name_of_insurance,amount,type_of_insurance) values(null, 'Ultra protection', 20.00, 'Uprm');
+
+
+insert into vehicle(transport_type,mpg,max_range,stored_warehouse_num) values( 'Truck', 12, 2000, 1);
+insert into vehicle(transport_type,mpg,max_range,stored_warehouse_num) values( 'Mini-Truck', 18, 500, 2);
+insert into vehicle(transport_type,mpg,max_range,stored_warehouse_num) values( 'Car', 25, 200, 2);
+insert into vehicle(transport_type,mpg,max_range,stored_warehouse_num) values( 'Truck1', 12, 2000, 2);
+insert into vehicle(transport_type,mpg,max_range,stored_warehouse_num) values( 'Mini-Truck1', 18, 500, 1);
+insert into vehicle(transport_type,mpg,max_range,stored_warehouse_num) values( 'car', 25, 200, 1);
+insert into vehicle(transport_type,mpg,max_range,stored_warehouse_num) values( 'Plane', 10, 6000, 1);
+
+insert into warehouse(capacity, owning_dep_num, b_number) values (10000, 1, 1);
+insert into warehouse(capacity, owning_dep_num, b_number) values (20000, 2, 3);
+
+
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 42, 1,2);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 2000, 14, 3,1);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 12, 1,3);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'GB', 'Iinternational', 600, 5, 4,7);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('GB', 'GB', 'Domestic', 500, 15, 4,5);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 10, 5,2);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 18, 10,2);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 2000,  20, 11,1);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 48, 3,3);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'GB', 'Iinternational', 600, 56, 1,7);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('GB', 'GB', 'Domestic', 500, 33, 1,5);
+insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 12, 1,2);
 
 
 insert into rate(origin,priority,zone,weight,rate) values ('AE', '1DA', 1, 0.5, 20.00);
