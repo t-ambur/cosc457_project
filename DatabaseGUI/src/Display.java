@@ -298,8 +298,11 @@ public class Display {
 					selected = "F";
 				input[7] = "'" + selected + "'"; // sex
 				
-				selected = clientString[clientList.getSelectedIndex()];
-				input[8] = selected + ", "; // Client Type
+				if (clientList.getSelectedIndex() == 0)
+					selected = "I";
+				else
+					selected = "B";
+				input[8] = "'" + selected + "', "; // Client Type
 				
 				selected = loyalArray[loyalList.getSelectedIndex()];
 				input[9] = selected + ", "; // Loyality Level
@@ -335,7 +338,7 @@ public class Display {
 		JTextField box8 = factory.createTextField("Destination", inputPanel);
 		
 		
-		String[] prString = {"1", "2", "3"};
+		String[] prString = {"1DA", "2DA", "3DA", "4DA", "5DA"};
 		JComboBox<String> prList = factory.createDropdown("Priority", inputPanel, prString);
 		
 		String[] curString = Constants.CURRENCY_ABBR;

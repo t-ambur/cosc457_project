@@ -251,7 +251,6 @@ primary key (acc_id, acc_code)
 
 set FOREIGN_KEY_CHECKS = 1;
 
-#insert into shipment(priority,is_complete,completion_time,last_warehouse,last_route,is_in_transit, requester) values ('1DA', false, '2000-1-1',1,1,false,'US');
 
 insert into accessorial(acc_code,acc_name,service,flat_rate) values( 'DDO', 'Direct Delivery Only', '1DM', 5.0000);
 insert into accessorial(acc_code,acc_name,service,flat_rate) values( 'DDO', 'Direct Delivery Only', '2DM', 4.0000);
@@ -396,7 +395,7 @@ insert into vehicle(transport_type,mpg,max_range,stored_warehouse_num) values( '
 
 insert into warehouse(capacity, owning_dep_num, b_number) values (10000, 1, 1);
 insert into warehouse(capacity, owning_dep_num, b_number) values (20000, 2, 3);
-
+insert into shipment(priority,is_complete,completion_time,last_warehouse,last_route,is_in_transit, requester) values ('1DA', false, '2000-1-1',1,1,false,'US');
 
 insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 500, 42, 1,2);
 insert into route(origin, destination, route_name, distance, time_estimate, zone, vehicle_id) values('US', 'US', 'Domestic', 2000, 14, 3,1);
