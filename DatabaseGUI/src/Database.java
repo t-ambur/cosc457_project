@@ -20,6 +20,10 @@ public class Database {
 	// class variables
 	private String databaseURL;
 	
+	// connection successful
+	private boolean success;
+	private String errorCode;
+	
 	// class constants
 	public static String LOCAL_URL = "jdbc:mysql://localhost:3306/project?";
 	public static String DEFAULT_USER = "root";
@@ -36,9 +40,10 @@ public class Database {
 		init(LOCAL_URL, user, pass);
 	}
 	
-	// generic intializer for all constructors
+	// generic initializer for all constructors
 	private void init(String url, String user, String pass)
 	{
+		errorCode = "None";
 		this.databaseURL = url;
 		// try to load the MySQL driver: MySQL Connector/J
 		try
@@ -47,7 +52,9 @@ public class Database {
 		}
 		catch (ClassNotFoundException e)
 		{
-			System.err.println("Driver for mysql connection not found, error code: " + e);
+			success = false;
+			errorCode = "Driver for mysql connection not found, error code: " + e;
+			System.err.println(errorCode);
 		}
 		// try to connect to the database, make sure MySQL server is running!
 		
@@ -56,10 +63,13 @@ public class Database {
 			con = DriverManager.getConnection(databaseURL, user, pass);
 			stmt = con.createStatement();
 			System.out.println("Successfully connected to database: " + url);
+			success = true;
 		}
 		catch (SQLException e)
 		{
-			System.err.println("Unable to connect to the database\nError Code: " + e);
+			success = false;
+			errorCode = "Unable to connect to the database\nError Code: " + e;
+			System.err.println(errorCode);
 		}
 	}
 	
@@ -91,7 +101,8 @@ public class Database {
 	
 	public List<String[]> querySelect(String table, String attribute, String search)
 	{
-		String query = "select * from " + table + " where " + attribute + " = '" + search + "'";
+		String query = "select * from " + table + " where " + attribute + " = '" + search + "'"
+				+ " limit " + Constants.LIMIT_ALL;
 		query = query.replaceAll("\\n|\\r", " ");
 		return querySelect(query);
 	}
@@ -147,5 +158,15 @@ public class Database {
 	public String getURL()
 	{
 		return this.databaseURL;
+	}
+	
+	public boolean wasSuccessful()
+	{
+		return success;
+	}
+	
+	public String connectionCode()
+	{
+		return errorCode;
 	}
 }

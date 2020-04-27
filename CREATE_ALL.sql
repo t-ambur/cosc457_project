@@ -199,7 +199,7 @@ create table if not exists package
 (
 package_id integer not null auto_increment,
 package_type varchar(4) not null,
-weight decimal(5) not null,
+weight decimal(5,1) not null,
 insured bool not null,
 accessorial varchar(3),
 shipment_id integer not null,

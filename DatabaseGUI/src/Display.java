@@ -323,18 +323,28 @@ public class Display {
 		clear();
 		factory.createLabel("Please enter the package's information.",inputPanel);
 		
-		String[] packageString = {"Opt1", "Opt2"};
+		String[] packageString = {"Cust", "UBox", "Letr", "10kg", "5kg", "Tube", "Pack"};
 		JComboBox<String> packageList = factory.createDropdown("Package Type", inputPanel, packageString);
 		
-		JTextField box2 = factory.createTextField("Weight", inputPanel);
+		// JTextField box2 = factory.createTextField("Weight", inputPanel);
+		String[] weightString = {"0.5", "1.0", "2.0", "3.0", "4.0", "5.0", "10.0"};
+		JComboBox<String> weightList = factory.createDropdown("Weight (Approx)", inputPanel, weightString);
 		
 		String[] insString = {"True", "False"};
 		JComboBox<String> insList = factory.createDropdown("Insured", inputPanel, insString);
 		
-		JTextField box4 = factory.createTextField("Accessorial", inputPanel);
+		
+		// JTextField box4 = factory.createTextField("Accessorial", inputPanel);
+		String[] accString = {"DDO", "RPS", "RES", "SLP", "FSC"};
+		JComboBox<String> accList = factory.createDropdown("Accessorial", inputPanel, accString);
+		
 		JTextField box5 = factory.createTextField("Client Number", inputPanel);
 		JTextField box6 = factory.createTextField("Store Number", inputPanel);
-		JTextField box7 = factory.createTextField("Origin", inputPanel);
+		
+		//JTextField box7 = factory.createTextField("Origin", inputPanel);
+		String[] originString = {"AE", "AR", "AU", "BE", "BR", "CN", "CA", "GE", "JP", "NP", "MX", "PH", "GB", "US"};
+		JComboBox<String> originList = factory.createDropdown("Origin", inputPanel, originString);
+		
 		JTextField box8 = factory.createTextField("Destination", inputPanel);
 		
 		
@@ -351,12 +361,13 @@ public class Display {
 				outputArea.setText("Processing... Please Wait");
 				String[] input = new String[10];
 				input[0] = "'" + packageList.getSelectedItem().toString() + "', "; //package type
-				input[1] = box2.getText() + ", "; // weight
+				double w = Double.parseDouble(weightList.getSelectedItem().toString());
+				input[1] = w + ", "; // weight
 				input[2] = insList.getSelectedItem().toString() + ", "; // insured
-				input[3] = "'" + box4.getText() + "', "; // access
+				input[3] = "'" + accList.getSelectedItem().toString() + "', "; // access
 				input[4] = box5.getText() + ", "; // client num
 				input[5] = box6.getText(); // store num --------
-				input[6] = "'" + box7.getText() + "', "; // origin
+				input[6] = "'" + originList.getSelectedItem().toString() + "', "; // origin
 				input[7] = "'" + box8.getText() + "'"; // destination
 				input[8] = prList.getSelectedItem().toString() + ", "; // priority
 				input[9] = curList.getSelectedItem().toString(); // currency type

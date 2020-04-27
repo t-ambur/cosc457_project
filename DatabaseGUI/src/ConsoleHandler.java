@@ -20,6 +20,8 @@ public class ConsoleHandler {
 	
 	public static String[] getRowStrings(List<String[]> rows)
 	{
+		if (rows == null || rows.size() == 0)
+			return new String[] {""};
 		String[] array = new String[rows.size()];
 		for (int i = 0; i < rows.size(); i++)
 		{

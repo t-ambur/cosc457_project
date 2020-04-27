@@ -1,3 +1,5 @@
+use project;
+
 insert into package(package_type, weight, insured, accessorial, shipment_id, is_shipped, is_complete, client_number, price_code, store_processed) values
 ('Cust', null, null,null,null,null,null,null,null,null);
 insert into package(package_type, weight, insured, accessorial, shipment_id, is_shipped, is_complete, client_number, price_code, store_processed) values

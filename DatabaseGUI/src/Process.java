@@ -124,6 +124,8 @@ public class Process {
 			insertPackage += input[i]; // package_type, weight, insured
 		if (input[3].equals("'', "))//access
 			insertPackage += " null, ";
+		else
+			insertPackage += input[3];
 		insertPackage += " 1, "; // shipment id
 		insertPackage += "False, False, "; // is shipped, is complete
 		insertPackage += input[4]; // client number
@@ -133,12 +135,12 @@ public class Process {
 		insertPackage += input[5]; // store num
 		
 		String toInsert = Constants.getInsertStatement(Constants.PACKAGE_COLUMNS, insertPackage);
-		System.out.println(toInsert);
 		sql_resp = db.queryInsert(toInsert);
 		if (sql_resp.equals("true"))
 		{
 			status += "Success. Package created.\n";
-			status += "Total Cost: 0";
+			status += "Package ID: " + grabPackageNumber(input);
+			status += "Cost: " + processCost(input);
 		}
 		else
 		{
@@ -146,6 +148,28 @@ public class Process {
 		}
 		
 		return status;
+	}
+	
+	public String grabPackageNumber(String[] input)
+	{
+		String status = "";
+		String query = "select package_id from package order by package_id desc limit 1";
+		String[] r = ConsoleHandler.getRowStrings(db.querySelect(query));
+		status += r[0];
+		return status + "\n";
+	}
+	
+	public String processCost(String[] input)
+	{
+		String status = "";
+		String priority = input[8].replaceAll(" ", "");
+		String query = "select rate from rate where origin=" + input[6] + "and priority='" + priority
+				+ "' and zone=1 and weight=" + input[1];
+		query = query.replaceAll(",", "");
+		System.out.println(query);
+		String[] r = ConsoleHandler.getRowStrings(db.querySelect(query));
+		status += r[0];
+		return status + "\n";
 	}
 	
 	public String[] sqlLookup(String text)
