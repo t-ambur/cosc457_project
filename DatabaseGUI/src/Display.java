@@ -106,6 +106,12 @@ public class Display {
 				newPackage();
 			}
 		});
+		factory.createButton("New Shipment", buttonPanel, new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				newShipment();
+			}
+		});
 	}
 	
 	private void welcome()
@@ -363,6 +369,40 @@ public class Display {
 			}
 		});
 		inputPanel.add(submit);
+		pack();
+	}
+	private void newShipment() {
+		clear();
+		factory.createLabel("Please enter the shipment information:",inputPanel);
+		
+		JTextField box1 = factory.createTextField("Shipment ID number", inputPanel);
+		
+		String[] prString = {"1", "2", "3"};
+		JComboBox<String> prList = factory.createDropdown("Priority", inputPanel, prString);
+		
+		JTextField box2 = factory.createTextField("Shipment requestor", inputPanel);
+		
+		JButton submit = new JButton("Submit");
+		submit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				String[] input = new String[8];
+				outputArea.setText("Processing... Please Wait");
+				input[0] = box1.getText() + ", ";
+				input[1] = prList.getSelectedItem().toString() + ", ";
+				input[2] = "false, ";  // is_complete
+				input[3] = "NULL, "; //completion_time: determined later
+				input[4] = "1, "; //TODO: get current warehouse
+				input[5] = "4, "; //TODO: get route
+				input[6] = "false, "; //is_in_transit
+				input[7] = "'" + box2.getText() + "'";//requester
+				String response = process.processShipment(input);
+				outputArea.setText(response);
+				pack();
+			}
+		});
+		inputPanel.add(submit);
+		
 		pack();
 	}
 	
