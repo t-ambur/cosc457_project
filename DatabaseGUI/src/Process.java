@@ -171,6 +171,29 @@ public class Process {
 		status += r[0];
 		return status + "\n";
 	}
+	public String processShipment(String[] input) {
+		String insertShipment = "";
+		String status = "";
+		String sql_resp;
+
+		for(int i = 0; i < 8; i++) {
+			insertShipment += input[i]; //insert 
+		}
+		String toInsert = Constants.getInsertStatement(Constants.SHIPMENT_COLUMNS, insertShipment);
+		System.out.println(toInsert);
+		sql_resp = db.queryInsert(toInsert);
+		if (sql_resp.equals("true"))
+		{
+			status += "Success. Shipment created.\n";
+			status += "Total Cost: 0";
+		}
+		else
+		{
+			status += "Shipment creation error: " + sql_resp + "\n";
+		}
+		return status;
+
+	}
 	
 	public String[] sqlLookup(String text)
 	{

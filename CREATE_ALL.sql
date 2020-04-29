@@ -252,6 +252,7 @@ primary key (acc_id, acc_code)
 set FOREIGN_KEY_CHECKS = 1;
 
 
+
 insert into accessorial(acc_code,acc_name,service,flat_rate) values( 'DDO', 'Direct Delivery Only', '1DM', 5.0000);
 insert into accessorial(acc_code,acc_name,service,flat_rate) values( 'DDO', 'Direct Delivery Only', '2DM', 4.0000);
 insert into accessorial(acc_code,acc_name,service,flat_rate) values( 'DDO', 'Direct Delivery Only', '3DM', 3.0000);

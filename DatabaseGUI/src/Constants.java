@@ -16,6 +16,9 @@ public class Constants {
 	public static final String PACKAGE_COLUMNS = "insert into package(package_type, weight, insured, accessorial, shipment_id, is_shipped,"
 			+ "is_complete, client_number, price_code, store_processed) values(";
 	
+	public static final String SHIPMENT_COLUMNS = "insert into shipment(shipment_id, priority, is_complete,"
+			+ "completion_time,  last_warehouse, last_route, is_in_transit, requester) values(";
+	
 	/////////////
 	
 	public static final String[] TABLES = {"accessorial", "Building", "Country", "Currency", "Customer", "Department", "Employee",
