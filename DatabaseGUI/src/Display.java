@@ -420,6 +420,39 @@ public class Display {
 		
 		pack();
 	}
+	private void addToShipment() {
+		clear();
+		
+		JTextField searchPackage = factory.createTextField("Enter Package ID:", inputPanel);
+		
+		JTextField searchShipment = factory.createTextField("Enter Shipment ID:", inputPanel);
+		
+		factory.createButton("Add to Shipment", inputPanel, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearOutput();
+				
+				String[] p = process.sqlLookup("package", "package_id", searchPackage.getText());
+				String[] s = process.sqlLookup("shipment", "shipment_id", searchShipment.getText());
+				
+				
+				String result = process.packageUpdate(p, s);
+				
+				
+				outputArea.append("Package ");
+				for (int i = 0; i < p.length; i++)
+					outputArea.append(p[i]);
+				outputArea.append(" has been added to shipment ");
+				for (int i = 0; i < s.length; i++)
+					outputArea.append(s[i]);
+				outputArea.append("\n " + result);
+				pack();
+				
+			}
+			
+		});
+		pack();	
+		
+	}
 	
 	private void clear()
 	{

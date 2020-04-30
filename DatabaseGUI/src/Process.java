@@ -194,6 +194,37 @@ public class Process {
 		return status;
 
 	}
+	public String packageUpdate(String[] packageId, String [] shipmentId) {
+		String status = "";
+		String sID = "";
+		String pID = "";
+		String sql_resp;
+		 
+		for(int i = 0; i < shipmentId.length; i++) {
+			sID += shipmentId[i];
+		}
+		for(int i = 0; i < packageId.length; i++) {
+			pID += packageId[i];
+		}
+		
+		String toInsert = "UPDATE package SET shipment_id = " + sID + " WHERE package_id = " + pID + ");"; 
+		System.out.println(toInsert);
+		sql_resp = db.queryInsert(toInsert);
+		
+		if (sql_resp.equals("true"))
+		{
+			status += "Success. Added to Shipment.\n";
+			status += "Total Cost: 0";
+		}
+		else
+		{
+			status += "Shipment update error: " + sql_resp + "\n";
+		}
+		
+		return status;
+		
+		
+	}
 	
 	public String[] sqlLookup(String text)
 	{
