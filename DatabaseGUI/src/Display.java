@@ -112,6 +112,12 @@ public class Display {
 				newShipment();
 			}
 		});
+		factory.createButton("Add to Shipment", buttonPanel, new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				addToShipment();
+			}
+		});
 	}
 	
 	private void welcome()
