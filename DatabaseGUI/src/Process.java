@@ -208,6 +208,7 @@ public class Process {
 		}
 		
 		String toInsert = "UPDATE package SET shipment_id = " + sID + " WHERE package_id = " + pID + ");"; 
+		toInsert = toInsert.replaceAll("|", "");
 		System.out.println(toInsert);
 		sql_resp = db.queryInsert(toInsert);
 		
