@@ -158,7 +158,17 @@ public class Process {
 		status += r[0];
 		return status + "\n";
 	}
+	public Double processTax(String[] input) {
+		
+		String code = input[6].replaceAll(",", "");
 	
+		String query = "select percentage from tax_custom where country_code = " + code;
+		List<String[]> l = db.querySelect(query);
+		String s = l.get(0)[0];
+		s = s.replaceAll("|", "");
+		return Double.parseDouble(s);
+		
+	}
 	public String processCost(String[] input)
 	{
 		String status = "";
@@ -168,7 +178,13 @@ public class Process {
 		query = query.replaceAll(",", "");
 		System.out.println(query);
 		String[] r = ConsoleHandler.getRowStrings(db.querySelect(query));
-		status += r[0];
+		String price = r[0].replaceAll("|", "");
+		price = price.replaceAll(" ", "");
+		price = price.substring(0, price.indexOf("|"));
+		System.out.println("Price: " + price);
+		double d = Double.parseDouble(price) * processTax(input);
+		status += Double.toString(d);
+		
 		return status + "\n";
 	}
 	public String processShipment(String[] input) {
@@ -194,28 +210,23 @@ public class Process {
 		return status;
 
 	}
-	public String packageUpdate(String[] packageId, String [] shipmentId) {
+	public String packageUpdate(String packageId, String shipmentId) {
 		String status = "";
 		String sID = "";
 		String pID = "";
 		String sql_resp;
 		 
-		for(int i = 0; i < shipmentId.length; i++) {
-			sID += shipmentId[i];
-		}
-		for(int i = 0; i < packageId.length; i++) {
-			pID += packageId[i];
-		}
+		sID = shipmentId;
+		pID = packageId;
 		
-		String toInsert = "UPDATE package SET shipment_id = " + sID + " WHERE package_id = " + pID + ");"; 
-		toInsert = toInsert.replaceAll("|", "");
+		
+		String toInsert = "UPDATE package SET shipment_id = " + sID + " WHERE package_id = " + pID + ";"; 
 		System.out.println(toInsert);
 		sql_resp = db.queryInsert(toInsert);
 		
 		if (sql_resp.equals("true"))
 		{
 			status += "Success. Added to Shipment.\n";
-			status += "Total Cost: 0";
 		}
 		else
 		{
@@ -226,7 +237,6 @@ public class Process {
 		
 		
 	}
-	
 	public String[] sqlLookup(String text)
 	{
 		rows = db.querySelect(text);

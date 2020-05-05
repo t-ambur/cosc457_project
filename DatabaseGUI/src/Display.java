@@ -437,19 +437,21 @@ public class Display {
 			public void actionPerformed(ActionEvent e) {
 				clearOutput();
 				
-				String[] p = process.sqlLookup("package", "package_id", searchPackage.getText());
-				String[] s = process.sqlLookup("shipment", "shipment_id", searchShipment.getText());
+				//String[] p = process.sqlLookup("package", "package_id", searchPackage.getText());
+				//String[] s = process.sqlLookup("shipment", "shipment_id", searchShipment.getText());
 				
 				
-				String result = process.packageUpdate(p, s);
+				
+				String pkg = searchPackage.getText();
+				String shipmnt = searchShipment.getText();
+			
+				String result = process.packageUpdate(pkg, shipmnt);
 				
 				
 				outputArea.append("Package ");
-				for (int i = 0; i < p.length; i++)
-					outputArea.append(p[i]);
+				outputArea.append(pkg);
 				outputArea.append(" has been added to shipment ");
-				for (int i = 0; i < s.length; i++)
-					outputArea.append(s[i]);
+				outputArea.append(shipmnt);
 				outputArea.append("\n " + result);
 				pack();
 				
