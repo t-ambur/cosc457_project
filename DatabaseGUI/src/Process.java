@@ -169,6 +169,16 @@ public class Process {
 		return Double.parseDouble(s);
 		
 	}
+	public Double processFlatRate(String[] input) {
+		String acc = input[3].replaceAll(",",  "");
+		acc = acc.replaceAll(" ",  "");
+		String query = "select flat_rate from accessorial where acc_code = " + acc;
+		System.out.println(query);
+		List<String[]> l = db.querySelect(query);
+		String s = l.get(0)[0];
+		s = s.replaceAll("|", "");
+		return Double.parseDouble(s);
+	}
 	public String processCost(String[] input)
 	{
 		String status = "";
@@ -181,8 +191,8 @@ public class Process {
 		String price = r[0].replaceAll("|", "");
 		price = price.replaceAll(" ", "");
 		price = price.substring(0, price.indexOf("|"));
-		System.out.println("Price: " + price);
 		double d = Double.parseDouble(price) * processTax(input);
+		d = d + processFlatRate(input);
 		status += Double.toString(d);
 		
 		return status + "\n";

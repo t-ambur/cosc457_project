@@ -8,7 +8,11 @@ import java.awt.BorderLayout;
 
 import java.awt.FlowLayout;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Display {
@@ -21,6 +25,9 @@ public class Display {
 	private JPanel buttonPanel;
 	private JPanel inputPanel;
 	private JPanel outputPanel;
+	//Image for logo
+	private BufferedImage logo;
+	private BufferedImage image;
 	// persistent outputArea at bottom of screen
 	private JTextArea outputArea;
 	// a factory class for abstracting away construction of UI components
@@ -71,6 +78,11 @@ public class Display {
 		frame.add(buttonPanel, "West");
 		frame.add(inputPanel, "Center");
 		frame.add(outputPanel, "South");
+		
+		//set icon
+		image = getImage("resource/icon.jpg");
+		frame.setIconImage(image);
+		
 		pack();
 	}
 	
@@ -467,6 +479,16 @@ public class Display {
 		inputPanel.removeAll();
 		inputPanel.revalidate();
 		inputPanel.repaint();
+	}
+	private BufferedImage getImage(String filename) {
+		//BufferedImage logo = new BufferedImage();
+		try {                
+	          logo = ImageIO.read(new File(filename));
+	       } catch (IOException ex) {
+	            System.out.println("Error: Image not found");
+	       }
+		return logo;
+		
 	}
 	
 	private void clearOutput()

@@ -1,7 +1,11 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -25,6 +29,10 @@ public class Login extends JDialog {
 	private int width;
 	private int height;
 	private JFactory factory;
+	
+	//Image for logo
+	private BufferedImage logo;
+	private BufferedImage image;
 	
 	public Login(String title, int width, int height){
 		this.title = title;
@@ -66,6 +74,10 @@ public class Login extends JDialog {
 			}
 		});
 		
+		//set icon
+		image = getImage("resource/icon.jpg");
+		frame.setIconImage(image);
+		
 		// add panels to the window
 		frame.add(loginPanel, "Center");
 		frame.pack();
@@ -103,6 +115,16 @@ public class Login extends JDialog {
 	public JFrame getFrame()
 	{
 		return frame;
+	}
+	private BufferedImage getImage(String filename) {
+		
+		try {                
+	        logo = ImageIO.read(new File(filename));
+	    } catch (IOException ex) {
+	       System.out.println("Error: Image not found");
+	    }
+		return logo;
+		
 	}
 
 }
