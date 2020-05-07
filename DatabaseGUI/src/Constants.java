@@ -28,7 +28,6 @@ public class Constants {
 	public static final String[] CURRENCY_ABBR = {"AED", "AFA", "USD", "AUD", "BDT", "EUR", "BOB", "BRL", "CAD", "CHF", "RMD",
 			"INR", "JPY", "MXN", "NPR", "PHP", "GBP", "RUB", "CLP"}; // id is index+1
 	
-	
 	//////////////
 	
 	public static final int MAX_COLUMNS = 30;
@@ -41,4 +40,5 @@ public class Constants {
 	{
 		return table + values + ");";
 	}
+	
 }
